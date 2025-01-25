@@ -1,0 +1,550 @@
+@forward './variable';
+
+@mixin position-top-left($top: 0, $left: 0) {
+  position: absolute;
+  top: $top;
+  left: $left;
+}
+
+@mixin position-top-right($top: 0, $right: 0) {
+  position: absolute;
+  top: $top;
+  right: $right;
+}
+
+@mixin position-bottom-left($bottom: 0, $left: 0) {
+  position: absolute;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin position-bottom-right($bottom: 0, $right: 0) {
+  position: absolute;
+  bottom: $bottom;
+  right: $right;
+}
+
+@mixin position-fixed($top: 0, $right: 0, $bottom: 0, $left: 0) {
+  position: fixed;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin position-vertical($left: 0, $right: 0) {
+  position: absolute;
+  top: 50%;
+  left: $left;
+  right: $right;
+  transform: translateY(-50%);
+}
+
+@mixin position-horizon($top: 0, $bottom: 0) {
+  position: absolute;
+  top: $top;
+  bottom: $bottom;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin position-center() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin position-sticky($top: 0, $backgroundColor: #ffffff) {
+  position: sticky;
+  top: $top;
+  background-color: $backgroundColor;
+  z-index: $TAB-ZINDEX;
+}
+
+@mixin flex($align: null, $justify: null, $direction: null) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+}
+
+@mixin inline-flex($align: null, $justify: null, $direction: null) {
+  display: inline-flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+}
+
+@mixin grid($cols: null, $rows: null, $gap: null) {
+  display: grid;
+  grid-template-columns: $cols;
+  grid-template-rows: $rows;
+  grid-gap: $gap;
+}
+
+@mixin border($color: inherit, $radius: null, $size: 1px) {
+  border: $size solid $color;
+  border-radius: $radius;
+}
+
+@mixin font($size: null, $weight: 400, $color: inherit) {
+  font: {
+    size: $size;
+    weight: $weight;
+  }
+  color: $color;
+}
+
+@mixin fontCut {
+  word-break: break-all;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+@mixin fontLineCut($value: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $value;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+@mixin scrollBarStyle() {
+  * {
+    &::-webkit-scrollbar {
+      width: 4px;
+      height: 100%;
+      // display: none; // 스크롤 숨기기
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 100px;
+      background-color: #303030;
+      -webkit-background-clip: padding-box;
+      background-clip: padding-box;
+      border: none;
+    }
+    &::-webkit-scrollbar-track {
+      border-radius: 0;
+      background-color: #202020;
+    }
+    &::-webkit-scrollbar-button:vertical:end:decrement {
+      display: block;
+      width : 4px;
+      height : $MENUBAR-HEIGHT;
+    }
+  }
+}
+
+@mixin buttonStyle($width, $height, $state, $backgroundColor) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $width;
+  height: $height;
+  border-radius: $BUTTONBORDERRADIUS;
+  @if ($state == active) {
+    background-color: $backgroundColor;
+    pointer-events: auto;
+  } @else if ($state == disabled) {
+    background-color: $backgroundColor;
+    pointer-events: none;
+  }
+}
+
+@mixin photoStyle($size, $radius) {
+  position: relative;
+  flex: none;
+  @include flex(center, center);
+  width: $size;
+  height: $size;
+  border-radius: $radius;
+  overflow: hidden;
+  &::after {
+    content: '';
+    @include position-center();
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgba($color: $SUBBORDERCOLOR, $alpha: 0.5);
+    border-radius: $radius;
+    box-sizing: border-box;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+@mixin inputText() {
+  @include flex($direction: column);
+  width: 100%;
+  .inputTitle {
+    flex: none;
+    @include font(14px, $SemiBold, #303030);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+  .inputLabel {
+    @include flex(center);
+    width: 100%;
+    height: 40px;
+    padding: 4px 16px;
+    border-radius: $INPUTBORDERRADIUS;
+    border: 2px solid $INPUTFIELD;
+    background-color: $INPUTFIELD;
+    &.focus {
+      background-color: #ffffff;
+      border: 2px solid $INPUTFOCUSBORDERCOLOR;
+    }
+    .inputElement {
+      @include flex(center);
+      width: 100%;
+      line-height: 20px;
+      @include font(14px, $Medium, #303030);
+      background-color: transparent;
+      &::placeholder {
+        @include font(14px, $Medium, #999999);
+      }
+    }
+  }
+}
+
+@mixin inputPassword() {
+  @include flex($direction: column);
+  width: 100%;
+  .inputTitle {
+    flex: none;
+    @include font(14px, $SemiBold, #303030);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+  .inputLabel {
+    @include flex(center);
+    width: 100%;
+    height: 40px;
+    padding: 4px 16px;
+    border-radius: $INPUTBORDERRADIUS;
+    border: 2px solid $INPUTFIELD;
+    background-color: $INPUTFIELD;
+    &.focus {
+      background-color: #ffffff;
+      border: 2px solid $INPUTFOCUSBORDERCOLOR;
+    }
+    .inputElement {
+      @include flex(center);
+      width: 100%;
+      line-height: 20px;
+      @include font(14px, $Medium, #303030);
+      background-color: transparent;
+      &::placeholder {
+        @include font(14px, $Medium, #999999);
+      }
+    }
+  }
+}
+
+@mixin inputSelect() {
+  @include flex($direction: column);
+  width: 100%;
+  .inputTitle {
+    flex: none;
+    @include font(14px, $SemiBold, #303030);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+  .selectBox {
+    position: relative;
+    @include flex(center);
+    width: 100%;
+    height: 40px;
+    padding: 4px 16px;
+    border-radius: $INPUTBORDERRADIUS;
+    border: 2px solid $INPUTFIELD;
+    @include font(14px, $Medium, #303030);
+    background-color: $INPUTFIELD;
+    background-image: url('../../public/iconDown.png');
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position: right 8px center;
+    &.default {
+      @include font(14px, $Medium, #999999);
+    }
+    .optionList {
+      @include flex(center);
+      width: 100%;
+      height: 40px;
+      background-color: transparent;
+      &::placeholder {
+        @include font(14px, $Medium, #999999);
+      }
+    }
+  }
+}
+
+@mixin inputFile() {
+  @include flex($direction: column);
+  width: 100%;
+  .inputTitle {
+    flex: none;
+    @include font(14px, $SemiBold, #303030);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+  .inputArea {
+    flex: 1;
+    @include inline-flex(center);
+    overflow: hidden;
+    .preview {
+      position: relative;
+      @include photoStyle(80px, $INPUTBORDERRADIUS);
+      .deleteButton {
+        @include position-top-right(4px, 4px);
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: rgba($color: #000000, $alpha: 0.5);
+        background-image: url('../../public/iconClose.png');
+        background-repeat: no-repeat;
+        background-size: 12px 12px;
+        background-position: center;
+        z-index: 1;
+      }
+    }
+  }
+  .inputLabel {
+    flex: none;
+    @include inline-flex(center);
+    margin-right: 8px;
+    .uploadImg {
+      flex: none;
+      position: relative;
+      @include inline-flex(center, center);
+      width: 80px;
+      height: 80px;
+      border-radius: $INPUTBORDERRADIUS;
+      border: 2px solid #eeeeee;
+      background-color: $INPUTFIELD;
+      cursor: pointer;
+      &::before {
+        content: '';
+        @include flex(center, center);
+        width: 30px;
+        height: 30px;
+        background-image: url('../../public/iconPlus.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+    }
+    .inputElement {
+      display: block;
+      width: 0px;
+      height: 0px;
+      visibility: hidden;
+      overflow: hidden;
+    }
+  }
+  .swiper {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    .swiper-wrapper {
+      @include flex(center);
+      .preview {
+        margin-right: 8px;
+        &:last-child {
+          margin-right: 0px;
+        }
+      }
+    }
+  }
+}
+
+@mixin inputTextArea() {
+  @include flex($direction: column);
+  width: 100%;
+  .inputTitle {
+    flex: none;
+    @include font(14px, $SemiBold, #303030);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+  .inputLabel {
+    position: relative;
+    @include flex(center);
+    width: 100%;
+    padding: 8px 16px 30px;
+    border-radius: $INPUTBORDERRADIUS;
+    border: 2px solid $INPUTFIELD;
+    background-color: $INPUTFIELD;
+    &.focus {
+      background-color: #ffffff;
+      border: 2px solid $INPUTFOCUSBORDERCOLOR;
+    }
+    .inputElement {
+      @include flex(center);
+      width: 100%;
+      min-height: 200px;
+      line-height: 20px;
+      @include font(14px, $Medium, #303030);
+      background-color: transparent;
+      &::placeholder {
+        @include font(14px, $Medium, #999999);
+      }
+    }
+    .stringCount {
+      @include position-bottom-right(8px, 16px);
+      @include font(12px, $Medium, #999999);
+      .nowCount {
+        margin-right: 4px;
+        @include font(12px, $Medium, #999999);
+      }
+      .maxCount {
+        margin-left: 4px;
+        @include font(12px, $Medium, #999999);
+      }
+    }
+  }
+}
+
+@mixin inputHashTag() {
+  @include flex($direction: column);
+  width: 100%;
+  .inputTitle {
+    flex: none;
+    @include font(14px, $SemiBold, #303030);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+  .inputArea {
+    flex: 1;
+    @include flex($direction: column);
+    .hashTagWrap {
+      flex: 1;
+      @include flex(center);
+      margin-bottom: 4px;
+      &:last-child {
+        margin-bottom: 0px;
+      }
+      .inputLabel {
+        flex: 1;
+        @include flex(center);
+        width: 100%;
+        padding: 8px 16px;
+        border-radius: $INPUTBORDERRADIUS;
+        border: 2px solid $INPUTFIELD;
+        line-height: 20px;
+        background-color: $INPUTFIELD;
+        &::before {
+          content: '#';
+          margin-right: 4px;
+          @include font(14px, $Medium, #666666);
+        }
+        &.focus {
+          background-color: #ffffff;
+          border: 2px solid $INPUTFOCUSBORDERCOLOR;
+        }
+        .inputElement {
+          @include flex(center);
+          width: 100%;
+          line-height: 20px;
+          @include font(14px, $Medium, #303030);
+          background-color: transparent;
+          &::placeholder {
+            @include font(14px, $Medium, #999999);
+          }
+        }
+      }
+      .buttonWrap {
+        flex: none;
+        margin-left: 16px;
+        button {
+          @include inline-flex(center, center);
+          width: 60px;
+          height: 40px;
+          margin-right: 4px;
+          border-radius: $BUTTONBORDERRADIUS;
+          border: 1px solid $BUTTONBORDERCOLOR;
+          @include font(14px, $Regular, #666666);
+          &:last-child {
+            margin-right: 0px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin bigFileUpload() {
+  @include flex($direction: column);
+  width: 100%;
+  .inputTitle {
+    flex: none;
+    @include font(14px, $SemiBold, #303030);
+    line-height: 20px;
+    margin-bottom: 8px;
+  }
+  .inputArea {
+    flex: 1;
+    @include inline-flex(center);
+    overflow: hidden;
+    .inputLabel {
+      flex: none;
+      @include inline-flex(center);
+      width: 100%;
+      .uploadBigFile {
+        flex: none;
+        position: relative;
+        @include inline-flex(center, center, column);
+        width: 100%;
+        height: 100px;
+        padding: 20px;
+        border-radius: $INPUTBORDERRADIUS;
+        border: 2px solid #eeeeee;
+        background-color: $INPUTFIELD;
+        cursor: pointer;
+        &::before {
+          content: '';
+          @include flex(center, center);
+          width: 30px;
+          height: 30px;
+          background-image: url('../../public/iconPlus.png');
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+        .progressBar {
+          position: relative;
+          @include flex(center);
+          width: 100%;
+          height: 10px;
+          margin-top: auto;
+          border-radius: 100px;
+          background-color: #dddddd;
+          line-height: 10px;
+          overflow: hidden;
+          .progressText {
+            @include position-center;
+            @include font(10px, $SemiBold, #303030);
+          }
+          .progress {
+            width: 100%;
+            height: 100%;
+            background-color: $SUBCOLOR;
+          }
+        }
+      }
+      .inputElement {
+        display: block;
+        width: 0px;
+        height: 0px;
+        visibility: hidden;
+        overflow: hidden;
+      }
+    }
+  }
+}
