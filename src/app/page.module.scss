@@ -9,7 +9,7 @@
   gap : 4rem;
 
   .title {
-    @include font(4rem, 800, var(--mainColor));
+    @include font(2.5rem, 800, var(--mainColor));
   }
   
   .btns {
@@ -25,6 +25,14 @@
       background-color: var(--mainColor);
       @include font(0.9rem, 600, white);
       @include flex(center, center)
+    }
+  }
+}
+
+@media (min-width:$Md) {
+  #home {
+    .title {
+      @include font(4rem, 800, var(--mainColor));
     }
   }
 }

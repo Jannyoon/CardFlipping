@@ -5,8 +5,12 @@ import { currentGameUser } from '@/common/lib/current-user';
 import style from './page.module.scss';
 import Link from '$/next/link';
 
-export default function Home() {
-  const { User } = currentGameUser();
+const Home = async () => {
+  const User = await currentGameUser();
+  console.log("User 출력", User);
+  if (!User){
+    console.log("user data가 없음");
+  }
 
   return (
     <div id={style.home}>
@@ -23,5 +27,8 @@ export default function Home() {
         <Link href={"/ranking"} className={style.btn}>랭킹</Link>
       </div>
     </div>
-  );
+  );  
+  
 }
+ 
+export default Home;
