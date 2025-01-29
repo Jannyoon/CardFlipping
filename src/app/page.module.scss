@@ -1,0 +1,30 @@
+@import '@/common/scss/_mixin.scss';
+
+
+#home {
+  width : 90vw;
+  height : 90vh;
+  border : 10px double var(--mainColor);
+  @include flex(center, center, column);
+  gap : 4rem;
+
+  .title {
+    @include font(4rem, 800, var(--mainColor));
+  }
+  
+  .btns {
+    @include flex(center, center, column);
+    gap : 0.5rem;
+    width : 10rem;
+
+    .btn {
+      width : 100%;
+      height : 4rem;
+      border-radius: 10px;
+
+      background-color: var(--mainColor);
+      @include font(0.9rem, 600, white);
+      @include flex(center, center)
+    }
+  }
+}

@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  relationMode = "prisma"
+}
+
+
+enum MemberRole {
+  ADMIN
+  GUEST
+}
+
+model User {
+  id String @id @default(uuid())
+  username String @unique
+  userId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role MemberRole @default(GUEST)
+
+  results Result[]
+}
+
+model Level {
+  id Int @id @default(autoincrement())
+  name String @unique
+  results Result[]
+}
+
+model Result {
+  id String @id @default(uuid())
+  userId String
+  levelId Int
+  score Int
+  completionTime Int? //수행시간
+  achievedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  level Level @relation(fields: [levelId], references: [id])
+
+  @@index([userId])
+  @@index([levelId])
+}
