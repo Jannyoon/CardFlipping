@@ -39,7 +39,6 @@ model User {
   
   results Result[]
 
-
   @@unique([serverid, username]) // 같은 서버 내에서만 유니크
   @@index([serverid])
 }
@@ -62,9 +61,9 @@ model Result {
 
   serverId Int
 
-  server Server @relation(fields: [serverId], references: [id])
-  user User @relation(fields: [userId], references: [id])
-  level Level @relation(fields: [levelId], references: [id])
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level Level @relation(fields: [levelId], references: [id],  onDelete: Cascade)
 
   @@index([serverId, userId, levelId]) //복합 인덱스
   @@index([serverId])

@@ -11,8 +11,34 @@
 
   .content {
     width : 30rem;
-    height : 25em;
-    background-color: yellow;
-    @include flex(center, center);
+    height : 15em;
+    padding : 2rem;
+    background-color: var(--mainColor);
+    @include flex(center, center, column);
+    p {
+      @include font(0.8rem, 600, rgb(0, 0, 0))
+    }
+
+    form {
+      width : 100%;
+      height : 100%;
+
+      @include flex(center, center, column);
+      gap : 1.5rem;
+      input {
+        width : 20rem;
+        height : 3rem;
+        padding : 1rem;
+        border-radius : 2rem;
+        text-align: center;
+        background-color: white;
+      }
+      button {
+        width : 4rem;
+        height : 2rem;
+        background-color: black;
+        @include font(1rem, 400, white)
+      }
+    }
   }
 }

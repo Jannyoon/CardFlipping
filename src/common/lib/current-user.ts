@@ -7,7 +7,7 @@ export const currentGameUser = async () => {
 
   if (!userId) return null;
   console.log("currentUser 훅에서 출력", userId);
-  const User = await db.user.findUnique({
+  const User = await db.user.findUnique({ //서버
     where : {
       userId
     }
