@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 
-export type ModalType = "signUp";
+export type ModalType = "signUp"|"gameSet"|null;
 
 
 interface ModalStoreType<T = any> {
   type : ModalType | null;
   isOpen : boolean;
-  data : T|null; //입력받는 데이터 저장할 곳
+  data? : T|null; //입력받는 데이터 저장할 곳
   callback : ((a?:T)=>void) | null;
-  openModal : (type:ModalType, data, callback?:(a?:T)=>void) => void;
+  openModal : (type:ModalType, data?:T|null, callback?:(a?:T)=>void) => void;
   closeModal : ()=>void;
 }
 

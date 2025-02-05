@@ -12,18 +12,13 @@ export default function AddUserModal() {
   console.log("modal 정보 출력, callback!", callback);
 
 
-  const handleAddNewUser = async (e : React.FormEvent<HTMLFormElement>)=> {
+  const handleAddNewUser = (e : React.FormEvent<HTMLFormElement>)=> {
     e.preventDefault();
     const nickname:string = e.currentTarget.nickname.value;
     console.log("nickname 내놔", nickname);
     if (nickname && callback){
-      try {
-        await callback(nickname);
-        closeModal();        
-      } catch(error){
-        console.log("유저 추가 중 에러 발생", error);
-      }
-
+      callback(nickname);
+      closeModal();        
       //console.log("response 출력", response);
     }
 

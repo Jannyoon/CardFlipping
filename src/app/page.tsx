@@ -1,19 +1,20 @@
 'use client';
-import { SignedIn, SignedOut, useAuth, UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, SignOutButton, useAuth } from '@clerk/nextjs'
 
 import style from './page.module.scss';
 import Link from 'next/link';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { User } from '$/.prisma/client';
 import axios from '$/axios';
 import { useModal } from '@/store/modal-store';
-
+import Image from '$/next/image';
 
 const Home = () => {
   //const [userId, setUserId] = useState<string|null>(null);
   const { userId } = useAuth();
   const [nowUser, setNowUser] = useState<User|null>(null);
   const [username, setUsername] = useState<string>("");
+  
 
   console.log("db에 저장된 nowUser, username 출력", nowUser, username);
   //보류
@@ -66,6 +67,12 @@ const Home = () => {
 
   return (
     <div id={style.home}>
+      {nowUser && userId && (
+        <div className={style.bannerImage}>
+          <Image src="/Main.png" alt="banner" fill 
+          sizes='(min-width:1536px) 100vw, 0px'/>
+        </div>)
+      }
       <div className={style.title}>카드 뒤집기</div>
       <div className={style.btns}>
         <SignedOut>
@@ -73,11 +80,21 @@ const Home = () => {
           <Link href={"/game"} className={style.btn}>비회원</Link>
         </SignedOut>
         <SignedIn>
-          <UserButton/>
+          {nowUser && userId && <p><span>{nowUser.username}</span> 님 반가워요!</p>}  
+          <SignOutButton>
+            <button className={style.logOutBtn}>로그아웃</button>
+          </SignOutButton>
           <Link href={"/game"} className={style.btn}>게임하기</Link>
         </SignedIn>
         <Link href={"/ranking"} className={style.btn}>랭킹</Link>
       </div>
+      {nowUser && userId && (
+        <div style={{'textAlign':'center', 'fontSize':'0.8rem'}}>
+          <p>개발 - @즈토</p>
+          <p>일러스트 - @0312</p>
+          <p>아이디어 - @솔로몬</p>
+        </div>
+      )}
     </div>
   );  
   
