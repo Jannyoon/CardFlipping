@@ -8,6 +8,7 @@ import { User } from '$/.prisma/client';
 import axios from '$/axios';
 import { useModal } from '@/store/modal-store';
 import Image from '$/next/image';
+import { useGameStore } from '@/store/game-store';
 
 const Home = () => {
   //const [userId, setUserId] = useState<string|null>(null);
@@ -43,6 +44,7 @@ const Home = () => {
 
 
   const { openModal } = useModal();
+  const { gameState, onReset } = useGameStore();
 
   //type, data, callback
   useEffect(()=>{
@@ -61,8 +63,15 @@ const Home = () => {
       }
     }
 
-    if (userId) fetchUser();
-  },[userId, username, openModal, handleAddSubmit]);
+    if (userId && !nowUser){
+      fetchUser();
+    }
+
+    if (gameState!==null){
+      onReset();
+    }
+    
+  },[userId, username, nowUser, openModal, handleAddSubmit, gameState, onReset]);
 
 
   return (

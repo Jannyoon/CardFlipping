@@ -7,19 +7,19 @@ interface GameStoreType{
   remaining : number|null;
 
   onStart : (level:number) => void;
+  onReset : ()=>void;
   level : number|null;
   setLevel: (level:number)=>void;
   startTime : Date|null;
 
   prevCard : string|null,
-  pushCard : (card:string)=>void,
+  onFlipCard : (card:string)=>void,
 
 }
 
 export const useGameStore = create<GameStoreType>((set)=>({
   gameState : null,
   remaining : null,
-
   onStart : (level)=>set((state)=>{
     state.gameState = 'running';
     state.level = level;
@@ -32,15 +32,20 @@ export const useGameStore = create<GameStoreType>((set)=>({
       level: state.level, 
     }
   }),
+  onReset : ()=>set({
+    gameState:null, 
+    remaining:null, 
+    level:null, 
+    startTime:null, 
+    prevCard:null
+  }),
   
   level : null,
   setLevel : (level)=>set({level}),
   startTime:null,
 
-  matching : false,
-
 
   prevCard:null,
-  pushCard : (card)=>set((state)=>({...state, prevCard:card, matching:true})),
+  onFlipCard : (card)=>set((state)=>({...state, prevCard:card, matching:true})),
   resetStack : ()=>set((state)=>({...state, prevCard : null, matching:false})),
 }))

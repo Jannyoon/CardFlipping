@@ -1,8 +1,12 @@
 'use client';
 import { useModal } from '@/store/modal-store';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import style from './page.module.scss';
 import { useGameStore } from '@/store/game-store';
+import dynamic from '$/next/dynamic';
+
+const GameBoard = dynamic(()=> import('./_component/CardBoard'), 
+{loading : ()=>(<div>로딩 중...</div>), ssr: false})
 
 
 export default function Gamepage() {
@@ -16,13 +20,7 @@ export default function Gamepage() {
 
   return (
     <div className={style.gamePage}>
-      {!!gameState &&
-      (<>
-        <p>{level}</p>
-        <p>{gameState}</p>
-        <p>{remaining}</p>
-      </>)
-      }
+      {!!gameState && (<GameBoard/>)}
     </div>
   );
 }
