@@ -86,7 +86,7 @@ const Home = () => {
       <div className={style.btns}>
         <SignedOut>
           <Link href={"/sign-in"} className={style.btn}>로그인</Link>
-          <Link href={"/game"} className={style.btn}>비회원</Link>
+          <Link href={"/game"} className={style.btn}>게임하기(비회원)</Link>
         </SignedOut>
         <SignedIn>
           {nowUser && userId && <p><span>{nowUser.username}</span> 님 반가워요!</p>}  

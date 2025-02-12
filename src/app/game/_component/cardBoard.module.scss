@@ -1,1 +1,10 @@
 @import '@/common/scss/_mixin.scss';
+
+.cardBoard {
+  width : 100%;
+  height : 100%;
+  gap : 10px;
+  @include flex(center, center);
+  flex-wrap: wrap;
+
+}
