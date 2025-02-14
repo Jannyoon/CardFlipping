@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import style from './levelSet-modal.module.scss';
 import { useModal } from '@/store/modal-store';
 

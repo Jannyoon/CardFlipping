@@ -5,15 +5,15 @@ import style from './cardBoard.module.scss'
 import { useGameStore } from '@/store/game-store';
 
 export default function CardBoard() {
-  const {remaining} = useGameStore();
+  const { remaining, setGameState } = useGameStore();
 
   useEffect(()=>{
     console.log(remaining);
     if (remaining===0){
-      alert("모두 완성!");
+      setGameState('end');
       return;
     }
-  }, [remaining]);
+  }, [remaining, setGameState]);
 
   return (
     <div className={style.cardBoard}>

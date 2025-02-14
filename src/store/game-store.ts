@@ -47,7 +47,8 @@ export const useGameStore = create<GameStoreType>((set)=>({
     remaining:0, 
     level:null, 
     startTime:null, 
-    prevCard:null
+    prevCard:null,
+    matchedList:[]
   }),
   
   level : null,

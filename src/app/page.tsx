@@ -3,12 +3,13 @@ import { SignedIn, SignedOut, SignOutButton, useAuth } from '@clerk/nextjs'
 
 import style from './page.module.scss';
 import Link from 'next/link';
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { User } from '$/.prisma/client';
 import axios from '$/axios';
-import { useModal } from '@/store/modal-store';
+
 import Image from '$/next/image';
 import { useGameStore } from '@/store/game-store';
+import { useModal } from '@/store/modal-store';
 
 const Home = () => {
   //const [userId, setUserId] = useState<string|null>(null);
@@ -43,7 +44,7 @@ const Home = () => {
   }, [userId]);
 
 
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const { gameState, onReset } = useGameStore();
 
   //type, data, callback
@@ -66,13 +67,13 @@ const Home = () => {
     if (userId && !nowUser){
       fetchUser();
     }
-
-    if (gameState!==null){
-      onReset();
-    }
-    
   },[userId, username, nowUser, openModal, handleAddSubmit, gameState, onReset]);
 
+
+  useEffect(()=>{
+    closeModal();
+    onReset();
+  },[closeModal, onReset]);
 
   return (
     <div id={style.home}>
