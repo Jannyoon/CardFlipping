@@ -1,0 +1,47 @@
+@import '@/common/scss/_mixin.scss';
+
+.top {
+  width : 100%;
+  height : 10rem;
+  @include flex(center, center);
+
+  .home {
+    position : absolute;
+    top : 0;
+    right : 0;
+    margin : 0.2rem;
+
+    border : 2.5px solid white;
+    border-radius: 10px;
+    width : 2.5rem;
+    height : 2.5rem;
+    background-color: var(--accentColor);
+  }
+  
+  .home:hover {
+    transform: scale(1.05);
+  }
+
+  .content {
+    @include flex(center, center, column);
+    .level {
+      @include font(1.6rem, 700, var(--subColor));
+    }
+  }
+
+}
+
+@media (min-width:$Md){
+  .top {
+    height : 15rem;
+    .home {
+      margin : 1rem;
+    }
+
+    .content {
+      .level {
+        @include font(2rem, 700, var(--subColor));
+      }
+    }
+  }
+}

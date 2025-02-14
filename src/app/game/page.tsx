@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import style from './page.module.scss';
 import { useGameStore } from '@/store/game-store';
 import dynamic from '$/next/dynamic';
+import TopBanner from './_component/TopBanner';
 
 const GameBoard = dynamic(()=> import('./_component/CardBoard'), 
 {loading : ()=>(<div>로딩 중...</div>), ssr: false})
@@ -20,7 +21,12 @@ export default function Gamepage() {
 
   return (
     <div className={style.gamePage}>
-      {!!gameState && (<GameBoard/>)}
+
+      {!!gameState && (
+        <div className={style.inner}>
+          <TopBanner/>
+          <GameBoard/>
+        </div>)}
     </div>
   );
 }
