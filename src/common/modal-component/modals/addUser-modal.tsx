@@ -6,12 +6,7 @@ import { useModal } from '@/store/modal-store';
 //user 닉네임
 
 export default function AddUserModal() {
-  const { type, data, callback, closeModal } = useModal();
-
-  console.log("modal 정보 출력, data", data);
-  console.log("modal 정보 출력, callback!", callback);
-
-
+  const { type, callback, closeModal } = useModal();
   const handleAddNewUser = (e : React.FormEvent<HTMLFormElement>)=> {
     e.preventDefault();
     const nickname:string = e.currentTarget.nickname.value;
@@ -21,7 +16,6 @@ export default function AddUserModal() {
       closeModal();        
       //console.log("response 출력", response);
     }
-
   }
   
   if (type==='signUp') return (
