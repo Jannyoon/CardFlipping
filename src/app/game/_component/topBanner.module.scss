@@ -24,8 +24,15 @@
 
   .content {
     @include flex(center, center, column);
+    gap : 0.5rem;
     .level {
-      @include font(1.6rem, 700, var(--subColor));
+      @include font(1.6rem, 700, rgb(57, 179, 216));
+    }
+    .refresh {
+      width : 2.5rem;
+      height : 2.5rem;
+      border-radius : 50%;
+      background-color: rgba(255, 255, 255, 0.752);
     }
   }
 

@@ -32,7 +32,9 @@ export default function TopBanner() {
       ><House/></button>
       <div className={style.content}>
         <div className={style.level}>Level {level}</div>
-        <button onClick={handleRefreshClick}><RotateCcw/></button>
+        <button 
+          className={style.refresh}
+          onClick={handleRefreshClick}><RotateCcw/></button>
       </div>
     </div>
   );

@@ -2,15 +2,21 @@
 
 
 .card {
-  flex-shrink: 0;
-  width : 5rem;
-  height : 8rem;
+  width : 3.4rem;
+  height : 6rem;
 
   perspective: 1000px;
   cursor : pointer;
 
   &.flipped .cardInner{
     transform: rotateY(180deg);
+  }
+}
+
+@media (min-width:$Md){
+  .card {
+    width : 5rem;
+    height : 8rem;
   }
 }
 
