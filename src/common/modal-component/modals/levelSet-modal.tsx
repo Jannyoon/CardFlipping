@@ -24,7 +24,16 @@ const convertToWebp = (pngSrc: string | StaticImageData):Promise<string> => {
       canvas.width = img.width;
       canvas.height = img.height;
       ctx.drawImage(img, 0, 0);
-      resolve(canvas.toDataURL("image/webp", 0.8)); //png => webp, 80% quality
+      const webpDataURL = canvas.toDataURL("image/webp", 0.8);
+      resolve(webpDataURL); //png => webp, 80% quality
+      
+      //변환한 이미지 webp의 용량을 확인해보자
+      fetch(webpDataURL)
+      .then((res) => res.blob())
+      .then((blob)=>{
+        console.log("변환 사이즈 출력", blob.size);
+      })
+    
     };
 
     img.onerror = (error) => reject(error);
