@@ -4,20 +4,24 @@ import type { StaticImageData } from '$/next/image';
 
 type gameStateType = 'running'|'stop'|'refresh'|'end'|null;
 interface GameStoreType{
-  cardList : (string | StaticImageData)[][];
-  setCardList : (arr:(string | StaticImageData)[][])=>void;
+  cardList : [string, string | StaticImageData][];
+  setCardList : (arr:[string, string | StaticImageData][])=>void;
 
   gameState : gameStateType;
   setGameState : (nowState:gameStateType)=>void;
+  
+  startTime : Date|null;
+  endTime: Date|null;
+  setEndTime : ()=>void;
 
   remaining : number;
   setRemaining : (remaining:number)=>void;
 
-  onStart : (level:number, cardList:(string | StaticImageData)[][]) => void;
+  onStart : (level:number, cardList:[string, string | StaticImageData][]) => void;
+
   onReset : ()=>void;
   level : number|null;
   setLevel: (level:number)=>void;
-  startTime : Date|null;
 
   prevCard : string|null;
   onFlipCard : (card:string)=>void;
@@ -26,6 +30,7 @@ interface GameStoreType{
   matchedList : string[];
   matchPush : (card:string)=>void;
 }
+
 
 export const useGameStore = create<GameStoreType>((set)=>({
   cardList : [],
@@ -38,13 +43,13 @@ export const useGameStore = create<GameStoreType>((set)=>({
   setRemaining : (remaining)=>set({remaining}),
 
   onStart : (level, cardList)=>set((state)=>{
-    state.gameState = 'running';
     state.level = level;
     state.remaining = level===1 ? 5 : (level===2 ? 6 : 8);
     return {
       ...state, 
       cardList,
-      gameState: state.gameState,
+      gameState: 'running',
+      startTime : new Date(),
       remaining : state.remaining, 
       level: state.level, 
     }
@@ -55,6 +60,7 @@ export const useGameStore = create<GameStoreType>((set)=>({
     remaining:0, 
     level:null, 
     startTime:null, 
+    endTime:null,
     prevCard:null,
     matchedList:[]
   }),
@@ -62,10 +68,11 @@ export const useGameStore = create<GameStoreType>((set)=>({
   level : null,
   setLevel : (level)=>set({level}),
 
-  startTime:null,
+  startTime: null,
+  endTime: null,
+  setEndTime : ()=>set({endTime: new Date()}),
 
-
-  prevCard:null,
+  prevCard: null,
   onFlipCard: (card) => set({ prevCard: card }),
   resetStack : ()=>set({prevCard : null}),
     

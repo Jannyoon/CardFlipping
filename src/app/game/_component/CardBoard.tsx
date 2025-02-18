@@ -1,49 +1,36 @@
 'use client';
-import React, { useEffect } from 'react';
-import Card from './_card/Card';
+import React, { useEffect, useMemo } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import style from './cardBoard.module.scss'
 import { useGameStore } from '@/store/game-store';
 
-export default function CardBoard() {
-  const { remaining, setGameState, level, cardList} = useGameStore();
+import Card from './_card/Card';
+import Timer from './_timer/Timer';
 
-  console.log("shuffle된 카드들", cardList);
+export default function CardBoard() {
+  const { remaining, setEndTime, setGameState, startTime, level, cardList} = useGameStore();
+
+  //매 렌더링 때마다 uuid가 새로 생성되는 것을 방지하기 위함
+  const cardListId = useMemo(()=>{
+    return cardList.map((value)=>{return {id : uuidv4(), content: value}})
+  },[cardList]);
 
   useEffect(()=>{
-    console.log(remaining);
+    console.log(remaining, startTime);
     if (remaining===0){
       setGameState('end');
+      setEndTime();
       return;
     }
-  }, [remaining, setGameState]);
+  }, [remaining, startTime, setGameState, setEndTime]);
 
   return (
     <div className={style.cardBoard}>
       <div className={`${style.container} ${level===1? style.level1 : (level===2 ? style.level2 : style.level3)}`}>
-        <Card content={'1'}/>
-        <Card content={'1'}/>
-        <Card content={'2'}/>
-        <Card content={'2'}/>
-        <Card content={'3'}/>
-        <Card content={'3'}/>
-        <Card content={'4'}/>
-        <Card content={'4'}/>
-        <Card content={'5'}/>
-        <Card content={'6'}/>
-        <Card content={'5'}/>
-        <Card content={'6'}/>
-        <Card content={'7'}/>
-        <Card content={'7'}/>
-        <Card content={'8'}/>
-        <Card content={'8'}/>
+        <Timer/>
+        {cardListId.map((val)=><Card key={val.id} content={val.content}/>)}
       </div>
     </div>
   );
 }
-
-/*
-  <Card content={'11'}/>
-  <Card content={'31'}/>
-  <Card content={'22'}/>
-*/
 

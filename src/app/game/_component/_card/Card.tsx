@@ -2,11 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import style from './card.module.scss';
 import { useGameStore } from '@/store/game-store';
+import type { StaticImageData } from '$/next/image';
+import Image from '$/next/image';
 
 interface CardProp {
-  content : string
+  content : [string, string | StaticImageData]
 }
+
 export default function Card({content}:CardProp) {
+  const [nickname, convertedUrl] = content;
+
   const {
     remaining,
     setRemaining,
@@ -20,22 +25,22 @@ export default function Card({content}:CardProp) {
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
 
   const handleClick = ()=>{
-    if (!clickable || matchedList.includes(content)) return;
+    if (!clickable || matchedList.includes(nickname)) return;
     setClickable(false);
     setIsFlipped(true);
 
     if (!prevCard){
       //첫 번째 짝을 선택했을 경우
-      onFlipCard(content);
-    } else if (prevCard!==content){
+      onFlipCard(nickname);
+    } else if (prevCard!==nickname){
       //카드가 짝이 맞지 않을 경우
       setTimeout(()=>{       
         resetStack();   
         setIsFlipped(false);
         setClickable(true);
       }, 200);
-    } else if (prevCard===content){
-      matchPush(content);
+    } else if (prevCard===nickname){
+      matchPush(nickname);
       setClickable(false);
       resetStack();
       setRemaining(remaining-1);
@@ -44,13 +49,13 @@ export default function Card({content}:CardProp) {
 
 
   useEffect(()=>{
-    if (!matchedList.includes(content) && isFlipped && !prevCard){
+    if (!matchedList.includes(nickname) && isFlipped && !prevCard){
       //이미 뒤집어져 있는 카드패를 되돌린다
       setIsFlipped(false);
       setClickable(true);
       return;
     }
-  }, [content, prevCard, isFlipped, matchedList])
+  }, [nickname, prevCard, isFlipped, matchedList])
 
   return (
     <div 
@@ -58,7 +63,9 @@ export default function Card({content}:CardProp) {
       onClick = {handleClick}
     >
       <div className={style.cardInner}>
-        <div className={style.back}>{content}</div>       
+        <div className={style.back}>
+          <Image alt="card" src={convertedUrl} fill sizes='100%'/>
+        </div>       
         <div className={style.front}>front</div>
       </div>
     </div>

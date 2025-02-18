@@ -5,11 +5,21 @@
   width : 3.5rem;
   height : 6rem;
 
+  margin-left: 0.1rem;
+  margin-right : 0.1rem;
+
   perspective: 1000px;
   cursor : pointer;
 
   &.flipped .cardInner{
     transform: rotateY(180deg);
+  }
+}
+
+@media (min-width:$Sm){
+  .card {
+    width : 4.66rem;
+    height : 8rem;
   }
 }
 
@@ -34,7 +44,7 @@
   width : 100%;
   height : 100%;
   position : absolute;
-
+  overflow : hidden;
 
   @include flex(center, center);
   border-radius : 8px;  

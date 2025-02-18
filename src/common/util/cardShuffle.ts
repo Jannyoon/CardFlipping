@@ -8,7 +8,8 @@ import 즈토 from '#/즈토.png';
 import 치즈 from '#/치즈.png';
 import 키다코 from '#/키다코.png';
 
-const baseList = [
+
+const baseList= [
   ['0312', 숫자], 
   ['교', 교], 
   ['메폐', 메폐], 
@@ -16,7 +17,8 @@ const baseList = [
   ['솔로몬', 솔로몬], 
   ['즈토', 즈토], 
   ['치즈', 치즈], 
-  ['키다코', 키다코]];
+  ['키다코', 키다코]
+];
 
 //level 별로 정해진 count 개수만큼 리스트를 뽑아옴
 export function PickCards(count:number){

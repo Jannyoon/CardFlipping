@@ -62,9 +62,9 @@ export default function LevelSetModal() {
     const cardList = GameCardsShuffle(level===1 ? 5 : (level===2 ? 6 : 8));
     try {
       setIsLoading(true);
-      const convertedCardList: (string | StaticImageData)[][] = await Promise.all(
-        cardList.map(async ([text, pngSrc]) => [text, await convertToWebp(pngSrc)])
-      );
+      const convertedCardList: [string, string | StaticImageData][] = await Promise.all(
+        cardList.map(async (val) => [val[0], await convertToWebp(val[1])] as [string, string | StaticImageData])
+      ); 
       onStart(level, convertedCardList);
       closeModal();
     } catch (error) {

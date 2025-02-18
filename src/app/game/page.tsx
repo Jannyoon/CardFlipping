@@ -11,13 +11,11 @@ const GameBoard = dynamic(()=> import('./_component/CardBoard'),
 
 
 export default function Gamepage() {
-  const { gameState, remaining, level, startTime } = useGameStore(); 
+  const { gameState } = useGameStore(); 
   const {openModal} = useModal();
   useEffect(()=>{
     openModal('gameSet');
   },[openModal]);
-
-  if (!gameState) console.log(gameState, remaining, level, startTime);
 
   return (
     <div className={style.gamePage}>

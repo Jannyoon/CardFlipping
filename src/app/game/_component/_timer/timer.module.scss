@@ -1,0 +1,22 @@
+@import '@/common/scss/_mixin.scss';
+
+.container {
+  position : absolute;
+  top : -2em;
+  right : 0.2rem;
+
+  width : fit-content;
+  height : fit-content;
+  padding : 0.1rem 0.6rem 0.1rem 0.6rem;
+
+
+  @include font(1.1rem, 500, white);
+  background-color: rgb(54, 54, 54);
+}
+
+@media (min-width: $Md){
+  .container {
+    right : 0.5rem;
+    @include font(1.5rem, 500, white);
+  }
+}

@@ -3,13 +3,15 @@ import React from 'react';
 import style from './levelSet-modal.module.scss';
 import { useGameStore } from '@/store/game-store';
 import { useRouter } from '$/next/navigation';
+import timeDiff from '@/common/util/timeDiff';
 
 
 
 export default function ResultModal(){
   const router = useRouter();
-  const { gameState, onReset } = useGameStore();
-
+  const { gameState, onReset, startTime, endTime } = useGameStore();
+  const {minutes, seconds, ms} = timeDiff(startTime, endTime)
+  
   const handleButtonClick = ()=>{
     onReset();
     router.push('/ranking');
@@ -20,7 +22,7 @@ export default function ResultModal(){
       <div className={style.content}>
         <div className={style.topLevelContainer}>
           <div className={style.levelContainer}>
-            <p>끝</p>
+            <p>{minutes} : {seconds} : {ms}</p>
   
           </div>
           <button onClick={handleButtonClick}>확인</button>
