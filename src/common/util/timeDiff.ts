@@ -13,7 +13,7 @@ const timeDiff = (time1:Date|null, time2: Date|null = new Date()) => {
   const minutes = minInMs % 60;
   const hours = hourInMs % 24;
 
-  return { days, hours, minutes, seconds, ms };
+  return { difference, days, hours, minutes, seconds, ms };
 };
 
 export default timeDiff;

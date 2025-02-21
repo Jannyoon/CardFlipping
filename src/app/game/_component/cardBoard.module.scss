@@ -18,7 +18,7 @@
   }
 }
 
-@media (min-width : $Sm){
+@media (min-width : $Md){
   .cardBoard {
     height : 100%;
     .container {
@@ -44,14 +44,14 @@
 
 
 
-@media (min-width : $Md){
+@media (min-width : $Lg){
   .cardBoard {
     height : 100%;
     .container {
       display: grid;
       justify-content: center;
       align-content: center;
-      gap : 30px;
+      gap : 20px;
       &.level1 {
         grid-template-columns: repeat(5, 7rem);
         grid-template-rows: repeat(2, auto);

@@ -49,10 +49,19 @@
   @include flex(center, center);
   border-radius : 8px;  
   backface-visibility: hidden;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
 
 .front {
-  background-color: white;
+  background-color: #bcf8ea;
+  color : white;
+  @include font(1.5rem, 500, white);
+}
+
+@media (min-width:$Md){
+  .front {
+    @include font(2.4rem, 500, white);
+  }
 }
 
 .back {

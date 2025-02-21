@@ -5,6 +5,8 @@ import { useGameStore } from '@/store/game-store';
 import type { StaticImageData } from '$/next/image';
 import Image from '$/next/image';
 
+import { GoHeartFill } from "react-icons/go";
+
 interface CardProp {
   content : [string, string | StaticImageData]
 }
@@ -66,7 +68,9 @@ export default function Card({content}:CardProp) {
         <div className={style.back}>
           <Image alt="card" src={convertedUrl} fill sizes='100%'/>
         </div>       
-        <div className={style.front}>front</div>
+        <div className={style.front}>
+          <GoHeartFill/>
+        </div>
       </div>
     </div>
   );

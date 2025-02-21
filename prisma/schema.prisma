@@ -37,7 +37,7 @@ model User {
   updatedAt DateTime @updatedAt
   role MemberRole @default(GUEST)
   
-  results Result[]
+  results Result[] @relation("UserResults")
 
   @@unique([serverid, username]) // 같은 서버 내에서만 유니크
   @@index([serverid])
@@ -46,7 +46,7 @@ model User {
 model Level {
   id Int @id @default(autoincrement())
   name String @unique
-  results Result[]
+  results Result[] @relation("LevelResults")
 }
 
 
@@ -55,16 +55,16 @@ model Result {
   userId String
 
   levelId Int
-  score Int
   completionTime Int //수행시간
   achievedAt DateTime @default(now())
 
   serverId Int
 
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  level Level @relation(fields: [levelId], references: [id],  onDelete: Cascade)
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade, name:"UserResults")
+  level Level @relation(fields: [levelId], references: [id],  onDelete: Cascade, name:"LevelResults")
 
+  @@unique([serverId, userId, levelId])
   @@index([serverId, userId, levelId]) //복합 인덱스
   @@index([serverId])
   @@index([userId])

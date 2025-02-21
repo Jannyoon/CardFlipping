@@ -7,6 +7,7 @@ import { useGameStore } from '@/store/game-store';
 import Card from './_card/Card';
 import Timer from './_timer/Timer';
 
+
 export default function CardBoard() {
   const { remaining, setEndTime, setGameState, startTime, level, cardList} = useGameStore();
 
@@ -16,7 +17,6 @@ export default function CardBoard() {
   },[cardList]);
 
   useEffect(()=>{
-    console.log(remaining, startTime);
     if (remaining===0){
       setGameState('end');
       setEndTime();
