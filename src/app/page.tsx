@@ -12,13 +12,12 @@ import { useGameStore } from '@/store/game-store';
 import { useModal } from '@/store/modal-store';
 
 const Home = () => {
-  //const [userId, setUserId] = useState<string|null>(null);
   const { userId } = useAuth();
-  const [nowUser, setNowUser] = useState<User|null>(null);
-  const [username, setUsername] = useState<string>("");
+  const {userPrevData, setUserPrevData} = useGameStore();
+  const [nowUser, setNowUser] = useState<User|null>(null); //
+  const [username, setUsername] = useState<string>(""); //
   
 
-  console.log("db에 저장된 nowUser, username 출력", nowUser, username);
   //보류
   const handleAddSubmit = useCallback(async (nickname:string) => {
     if (!userId || !nickname){
@@ -30,9 +29,8 @@ const Home = () => {
       console.log("성공한 응답", response);
       if (response.data){
         setNowUser(response.data);      
-        setUsername(nickname);        
+        setUsername(nickname);    
       }
-
     } catch (error){
       alert("유저 등록 실패");
       if (axios.isAxiosError(error)) {
@@ -52,12 +50,15 @@ const Home = () => {
     const fetchUser = async () => {
       try {
         const { data } = await axios.get('/api/user');
-        console.log("data를 출력합시다", data);
-        if (!data.user){
+        console.log("fetch 완료. data를 출력합시다", data);
+        if (!data.user?.userId){
           alert("유저가 존재하지 않습니다.") //debug
           openModal("signUp", {userId: userId}, (username)=>handleAddSubmit(username));
         }
-        if (data.user) setNowUser(data.user);
+        if (data.user?.userId){
+          setNowUser(data.user);
+          setUserPrevData(data);
+        }
       } catch (error){
         alert("서버 오류가 발생했습니다.");
         console.log("fetch Error", error);
@@ -67,7 +68,13 @@ const Home = () => {
     if (userId && !nowUser){
       fetchUser();
     }
-  },[userId, username, nowUser, openModal, handleAddSubmit, gameState, onReset]);
+    if (!userId){
+      setNowUser(null);
+      setUsername("");
+      setUserPrevData(null);
+    }
+    console.log("store에 저장된 prevData", userPrevData);
+  },[userId, username, nowUser, openModal, handleAddSubmit, gameState, onReset, userPrevData, setUserPrevData]);
 
 
   useEffect(()=>{

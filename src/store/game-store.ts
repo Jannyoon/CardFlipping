@@ -1,9 +1,21 @@
+import { User, Result } from '$/.prisma/client';
 import {create} from 'zustand';
 import type { StaticImageData } from '$/next/image';
+
+interface UserData extends User{
+  result: Result[]
+}
+
+interface PrevData {
+  user: UserData;
+}
 
 
 type gameStateType = 'running'|'stop'|'refresh'|'end'|null;
 interface GameStoreType{
+  userPrevData : PrevData|null;
+  setUserPrevData : (data:User|null)=>void;
+
   cardList : [string, string | StaticImageData][];
   setCardList : (arr:[string, string | StaticImageData][])=>void;
 
@@ -33,6 +45,8 @@ interface GameStoreType{
 
 
 export const useGameStore = create<GameStoreType>((set)=>({
+  userPrevData : null,
+  setUserPrevData : (data)=>set({userPrevData:data}),
   cardList : [],
   setCardList : (cardList) => set({cardList}),
 

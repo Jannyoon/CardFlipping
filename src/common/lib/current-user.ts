@@ -13,5 +13,11 @@ export const currentGameUser = async () => {
     }
   })
 
-  return User;
+  const Result = await db.result.findMany({
+    where : {
+      userId
+    }
+  })
+
+  return {...User, result:[...Result]};
 }

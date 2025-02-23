@@ -1,0 +1,83 @@
+@import '@/common/scss/_mixin.scss';
+
+
+.modalScreen {
+  position : absolute;
+
+  width : 100vw;
+  height : 100vh;
+  
+  background-color: rgba(0, 0, 0, 0.49);
+
+  @include flex(center, center);
+
+  .content {
+    width : 30rem;
+    height : 15em;
+    padding : 0.3rem;
+
+    background-color: var(--mainColor);
+    @include flex(center, center, column);
+
+    .topLevelContainer{
+      width : 100%;
+      height : 100%;
+
+      @include flex(center, center, column);
+
+      .topHeader {
+        width : 100%;
+        @include font(1.5rem, 500, black);
+        .desc {
+          width : 100%;
+          text-align: center;
+          @include font (1rem, 500, black);
+        }
+
+        .prevResult {
+          width : 100%;
+          margin-top : 0.2rem;
+          text-align: center;
+          @include font(0.8rem, 400, rgb(39, 39, 39));
+        }
+      }
+
+      .levelContainer {
+        position: relative;
+        width : 100%;
+        
+        @include flex($align:center, $direction:column);
+        margin-top : 1rem;
+        margin-bottom: 2rem;
+
+        .crown {
+          position : absolute;
+     
+          top: -1rem;
+          @include font(1.8rem, 200, rgb(233, 215, 16));
+          transform-origin: bottom left;
+          transform: rotate(28deg);
+        }
+
+        p {
+          @include font(2.5rem, 900, rgb(147, 255, 255));
+        }
+
+      }
+
+
+
+
+
+      button {
+        width : fit-content;
+        height : 2rem;
+        padding : 0.6rem;
+        background-color: rgba(0, 0, 0, 0.838);
+        
+        @include flex(center, center);
+        @include font(1rem, 400, white)
+      }
+    }
+  }
+}

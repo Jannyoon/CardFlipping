@@ -32,7 +32,7 @@ export const POST = async (req: Request) => {
         username,
         userId,
         serverid : 1,
-        role : "GUEST"
+        role : "GUEST",
       }
     })
     console.log("NEW USER CREATED")
