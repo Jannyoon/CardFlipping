@@ -1,0 +1,61 @@
+@import '@/common/scss/_mixin.scss';
+
+.rankingPage {
+  width : 100vw;
+  height : 100dvh;
+  background-color: pink;
+  @include flex($align: center, $direction: column);
+  .home {
+    position: absolute;
+    top : 0;
+    left : 0;
+    border : 2.5px solid white;
+    border-radius: 10px;
+    width : 2.5rem;
+    height : 2.5rem;
+    background-color: var(--accentColor);
+  }
+  @media (min-width : $Md){
+    .home {
+      position: static;
+      margin-right : 1rem;
+    }
+  }
+
+  .title {
+    width : 100%;
+    text-align: center;
+    padding : 1.5rem;
+    @include font(1.5rem, 700, black);
+    @include flex(center, center);
+  }
+
+  @media (min-width : $Md){
+    .title {
+      @include font(3rem, 700, black);
+    }
+  }
+
+  .btnContainer {
+    width : 100%;
+    @include flex(center, center);
+    gap : 10px;
+    button {
+      width : 10rem;
+      border : 3px solid var(--accentColor);
+      border-radius: 20px;
+      padding : 1rem;
+      background-color: rgb(247, 255, 255);
+      @include font(0.8rem, 600, rgba(74, 74, 74, 0.945));
+      &.selected {
+        background-color : rgb(200, 244, 253);
+      }
+    }
+
+    @media (min-width:$Md){
+      button {
+        @include font(1rem, 600, rgba(74, 74, 74, 0.945));
+      }
+    }
+  }
+}

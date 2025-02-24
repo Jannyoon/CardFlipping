@@ -1,0 +1,41 @@
+@import '@/common/scss/_mixin.scss';
+
+.container {
+  width : 95%;
+  height : 70vh;
+  margin-top : 1rem;
+  background-color: rgb(255, 224, 240);
+
+  overflow-y: auto;
+
+  border : 3px solid var(--accentColor);
+  border-radius: 10px;
+
+  .contents{
+    flex : 1;
+    width : 100%;
+    padding-left : 1rem;
+    padding-right : 1rem;
+  }
+}
+
+@media (min-width:$Md){
+  .container {
+    width : 60%;
+    height : 55vh;
+  }
+}
+
+/* 스크롤바의 폭 너비 */
+.container::-webkit-scrollbar {
+  width: 5px;  
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: var(--accentColor); /* 스크롤바 색상 */
+  border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+.container::-webkit-scrollbar-track {
+  background: rgba(220, 20, 60, .1);  /*스크롤바 뒷 배경 색상*/
+}

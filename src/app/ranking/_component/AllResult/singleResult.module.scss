@@ -1,0 +1,53 @@
+@import '@/common/scss/_mixin.scss';
+
+.container {
+  width : 100%;
+  height : 4rem;
+
+  padding-top : 0.9rem;
+  padding-bottom : 0.9rem;
+  border-bottom : 0.5px solid rgba(96, 96, 96, 0.475);
+  
+  @include flex(center, center);
+
+  div {
+    width : 100%;
+    height : 100%;
+    text-align: center;
+
+    @include font(0.6rem, 400, black);
+    @include flex($justify : center, $direction: column);
+    overflow: hidden;
+    border-right : 2px solid rgba(50, 50, 50, 0.304);
+
+
+    &.noneborder {
+      border : none;
+    }
+  }
+
+  .noneborder, .time {
+    @include font(0.5rem, 400, black);
+  }
+
+  .username {
+    flex-basis: 200%;
+    p {
+      padding-left : 0.5rem;
+      padding-right : 0.5rem;
+      @include fontCut();
+    }
+  }
+}
+
+@media (min-width:$Md){
+  .container {
+    height : 4.5rem;
+    div {
+      @include font(1rem, 400, black);
+    }
+    p, .noneborder, .time {
+      @include font(0.8rem, 400, black);
+    }
+  }
+}
