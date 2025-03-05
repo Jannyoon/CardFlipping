@@ -14,14 +14,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <ClerkProvider afterSignOutUrl={"/"}>
-      <html lang="en">
-        <body>
-          {children}
-          <ModalProvider/>
-        </body>
-      </html>
+
+        <html lang="en">
+          <body>      
+            {children}            
+            <ModalProvider/>      
+          </body>
+        </html>
+
     </ClerkProvider>
   );
 }

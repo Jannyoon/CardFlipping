@@ -1,6 +1,8 @@
 import { NextResponse } from "$/next/server";
 import db from "@/common/lib/db";
 
+
+
 export const POST = async (req: Request) => {
   try {
     const body = await req.json();
