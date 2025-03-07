@@ -1,6 +1,7 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
+import { useInView } from "react-intersection-observer";
 import style from './allResultContainer.module.scss';
 import SingleResult from './SingleResult';
 import { getResults } from '@/common/lib/getResults';
@@ -11,66 +12,57 @@ interface AllResultContainerProp {
 }
 
 export default function AllResultContainer({level}:AllResultContainerProp) {
-  const STORAGE_LEN = 3;
-  const [direction, setDirection] = useState<"next"|"prev">("next");
   const {
     data,
     fetchNextPage,
-    fetchPreviousPage,
     hasNextPage,
-    hasPreviousPage,
     isFetchingNextPage,
-    isFetchingPreviousPage,
   } = useInfiniteQuery({
-    queryKey : ['results', level, direction],
+    queryKey : ['results', level],
     queryFn: async ({ pageParam, queryKey }:  QueryFunctionContext<string[], string|null>) => {
-      const levelNumber = queryKey[1];
-      const direction = queryKey[2];
-      console.log("fetching되고 있는 상태, pageParam", pageParam);
-      return getResults(levelNumber, pageParam??undefined, direction as ('next'|'prev'));
+      try {
+        const levelNumber = queryKey[1];
+        return await getResults(levelNumber, pageParam??undefined);
+      } catch(error){
+        console.log("데이터 전송 오류", error);
+        throw new Error("데이터를 정상적으로 불러오지 못했습니다.");
+      }
     },
     initialPageParam: null,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? null,
-    getPreviousPageParam: (firstPage) =>{
-      console.log("현재 firstPage를 출력하라", firstPage);
-      return firstPage.prevCursor ?? null},
+    getPreviousPageParam: (firstPage) =>firstPage.prevCursor ?? null,
+    staleTime : 5*60*1000,
+    gcTime : 6*60*1000
 
   });
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
-  
+  const { ref, inView} = useInView({
+    /* Optional options */
+    threshold: 0.8,
+  });
 
   console.log("그냥 데이터", data);
 
 
   useEffect(()=>{
-    const prevObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasPreviousPage && !isFetchingPreviousPage) {
-        fetchPreviousPage();
-      }
-    }, { threshold: 1.0 });
+    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
+  },[inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-    const nextObserver = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    }, { threshold: 1.0 });
-
-    if (prevRef.current) prevObserver.observe(prevRef.current);
-    if (nextRef.current) nextObserver.observe(nextRef.current);
-
-    return ()=>{
-      prevObserver.disconnect();
-      nextObserver.disconnect();
-    };
-  },[hasPreviousPage, isFetchingPreviousPage, hasNextPage, isFetchingNextPage, fetchNextPage, fetchPreviousPage]);
-
+  if (!data){
+    return (
+      <div className={style.container}>
+        <div className={style.contents}>
+          Loading...
+        </div>
+      </div>
+    )
+  }
   return (
     <div className={style.container}>
       <div className={style.contents}>
-        <div ref={prevRef} style={{'background':"yellow", 'height':'10px'}}/>
-        {data?.pages.map((page) => page.results.map((result)=><SingleResult key={result.id} result={result}/>))}
-        <div ref={nextRef} style={{'background':"yellow", 'height':'10px'}}/>
+        {data.pages.map((page) => page.results.map((result)=><SingleResult key={result.id} result={result}/>))}
+        <div ref={ref} style={{'height':'100%', 'padding':'0.5rem'}}>
+          {isFetchingNextPage && 'Loading...'}
+        </div>
       </div>
     </div>
   );

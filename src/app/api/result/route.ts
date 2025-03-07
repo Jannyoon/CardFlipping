@@ -40,5 +40,15 @@ export const POST = async (req: Request) => {
     console.log("[SERVER POST ERROR]", error);
     return NextResponse.json({error : "Internal ERROR"}, {status : 500})
   }
+}
+
+export const GET = async (req:Request)=>{
+  const url = new URL(req.url);
+  console.log("get api", url);
+  const userId = url.searchParams.get('userId');
+  const level = url.searchParams.get('level');
+  console.log(userId, level, "결과 출력");
+  return NextResponse.json({message : url}, {status : 200});
+
 
 }

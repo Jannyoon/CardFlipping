@@ -13,8 +13,8 @@ interface PrevData {
 
 type gameStateType = 'running'|'stop'|'refresh'|'end'|null;
 interface GameStoreType{
-  userPrevData : PrevData|null;
-  setUserPrevData : (data:User|null)=>void;
+  userPrevData ?: PrevData|null;
+  setUserPrevData : (data:PrevData|null)=>void;
 
   cardList : [string, string | StaticImageData][];
   setCardList : (arr:[string, string | StaticImageData][])=>void;
@@ -46,7 +46,7 @@ interface GameStoreType{
 
 export const useGameStore = create<GameStoreType>((set)=>({
   userPrevData : null,
-  setUserPrevData : (data)=>set({userPrevData:data}),
+  setUserPrevData : (data:PrevData|null)=>set({userPrevData:data}),
   cardList : [],
   setCardList : (cardList) => set({cardList}),
 

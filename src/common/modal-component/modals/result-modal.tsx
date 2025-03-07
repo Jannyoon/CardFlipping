@@ -1,27 +1,14 @@
 'use client';
 import React, { useEffect, useMemo } from 'react';
+import axios from '$/axios';
 import style from './result-modal.module.scss';
 import { useGameStore } from '@/store/game-store';
 import { useRouter } from '$/next/navigation';
-import timeDiff from '@/common/util/timeDiff';
 import { useAuth } from '@clerk/clerk-react'
-
+import { calcTime } from '@/common/util/calcTime';
+import timeDiff from '@/common/util/timeDiff';
 import { PiCrownFill } from "react-icons/pi";
-import axios from '$/axios';
 
-const calcTime = (time : number|null)=>{
-  if (!time) return {minutes:'00', seconds:'00', ms:'00'};
-  const secInMs = Math.floor(time / 1000);
-  const minInMs = Math.floor(secInMs / 60);
-  const ms = time % 1000;
-  const seconds = secInMs % 60;
-  const minutes = minInMs % 60;
-  return {
-    minutes: String(minutes).padStart(2,'0'), 
-    seconds: String(seconds).padStart(2,'0'), 
-    ms: String(ms).padStart(2,'0'), 
-  } 
-}
 
 export default function ResultModal(){
   const { userId } = useAuth();
@@ -72,7 +59,7 @@ export default function ResultModal(){
           </div>
           <div className={style.levelContainer}>
             <PiCrownFill className={style.crown}/>
-            <p>{String(minutes).padStart(2,'0')} : {String(seconds).padStart(2,'0')} : {ms}</p>
+            <p>{String(minutes).padStart(2,'0')} : {String(seconds).padStart(2,'0')} : {String(ms).padStart(3,'0')}</p>
           </div>
           <button onClick={handleButtonClick}>랭킹 보러가기</button>
         </div>

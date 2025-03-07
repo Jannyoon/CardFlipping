@@ -87,7 +87,8 @@ const Home = () => {
       {nowUser && userId && (
         <div className={style.bannerImage}>
           <Image src="/Main.png" alt="banner" fill 
-          sizes='(min-width:1536px) 100vw, 0px'/>
+            sizes='(min-width:1536px) 100vw, 0px'
+          />
         </div>)
       }
       <div className={style.title}>카드 뒤집기</div>

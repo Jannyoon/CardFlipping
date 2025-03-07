@@ -9,6 +9,7 @@ interface Result {
   achievedAt : Date;
   serverId : number;
   user: { userId: string; username: string }; // user 정보 추가 (필요한 필드만 포함)
+  rank : number;
 }
 
 interface GetResultResponse {
@@ -20,12 +21,11 @@ interface GetResultResponse {
 export async function getResults(
   level:string, 
   cursor?:string, 
-  direction: "next"|"prev" = "next"
 ):Promise<GetResultResponse>{
 
   const limit = 10; //10개씩만 받아오도록 한다.
   const results = await db.result.findMany({
-    take : direction==='next' ? limit : -limit,
+    take : limit,
     skip : cursor ? 1 : 0,
     cursor : cursor ? {id : cursor} : undefined,
     where : {
@@ -36,7 +36,7 @@ export async function getResults(
       user:{select : {username : true, userId : true}}
     },
     orderBy : [
-      { completionTime : direction==="next" ? "asc" : 'desc'},
+      { completionTime : "asc"},
       { achievedAt : 'asc'}
     
     ]
@@ -61,7 +61,7 @@ export async function getResults(
 
   const rankedResults = results.map((result, idx)=>({...result, rank : rankOffset+idx+1})); 
 
-  if (direction==='prev') results.reverse();
+
   return {
     results : rankedResults,
     nextCursor : results.length===limit ? results[results.length-1].id : null,
