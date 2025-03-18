@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/common/scss/global.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 import ModalProvider from "@/common/modal-component/modal-provider";
+//import MSWProvider from "@/mocks/MSWProvider";
 
 
 export const metadata: Metadata = {
@@ -17,11 +18,12 @@ export default function RootLayout({
 
   return (
     <ClerkProvider afterSignOutUrl={"/"}>
-
         <html lang="en">
-          <body>      
-            {children}            
-            <ModalProvider/>      
+          <body>     
+            {/*<MSWProvider>*/}
+              {children}            
+              <ModalProvider/>
+            {/*</MSWProvider>*/}       
           </body>
         </html>
 

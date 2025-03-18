@@ -26,9 +26,10 @@ export default function MyResult({level}:MyResultProp) {
   const {minutes, seconds, ms} = calcTime(myResult? myResult.completionTime : null);
 
   const fetchResult = useCallback(async ()=>{
+    setIsPending(true);
+    if (!userPrevData) return;
+    
     try {
-      setIsPending(true);
-      if (!userPrevData) return;
       const data = await getMyLevelResult(userPrevData.user.userId, level);
       setMyResult(data);
     }

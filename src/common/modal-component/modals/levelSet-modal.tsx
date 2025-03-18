@@ -63,8 +63,10 @@ export default function LevelSetModal() {
     try {
       setIsLoading(true);
       const convertedCardList: [string, string | StaticImageData][] = await Promise.all(
-        cardList.map(async (val) => [val[0], await convertToWebp(val[1])] as [string, string | StaticImageData])
-      ); 
+        cardList.map((val) => 
+          convertToWebp(val[1]).then((webpUrl) => [val[0], webpUrl] as [string, string | StaticImageData])
+        )
+      );
       onStart(level, convertedCardList);
       closeModal();
     } catch (error) {
