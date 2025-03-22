@@ -8,12 +8,24 @@ import { useAuth } from '@clerk/clerk-react'
 import { calcTime } from '@/common/util/calcTime';
 import timeDiff from '@/common/util/timeDiff';
 import { PiCrownFill } from "react-icons/pi";
+import { useShallow } from '$/zustand/react/shallow';
 
 
 export default function ResultModal(){
   const { userId } = useAuth();
   const router = useRouter();
-  const { userPrevData, gameState, onReset, startTime, endTime, level } = useGameStore();
+  const { userPrevData, gameState, onReset, startTime, endTime, level } = useGameStore(
+    useShallow(({ userPrevData, gameState, onReset, startTime, endTime, level })=>(
+      { 
+        userPrevData, 
+        gameState, 
+        onReset, 
+        startTime, 
+        endTime, 
+        level 
+      }
+    ))
+  );
   const {difference, minutes, seconds, ms} = timeDiff(startTime, endTime)
   
   const prevLevelResult = useMemo(()=>{
@@ -21,7 +33,6 @@ export default function ResultModal(){
     const {minutes, seconds, ms} = calcTime(prevCompletionTime);
     return {prevCompletionTime, minutes, seconds, ms}
   },[level, userPrevData?.user.result]);
-  console.log("이전 결과 출력", prevLevelResult);
 
   useEffect(()=>{
     const postResult = async ()=>{
@@ -42,7 +53,6 @@ export default function ResultModal(){
     router.push('/ranking');
   }
 
-  console.log(prevLevelResult, "디버깅");
   if (gameState==='end') return (
     <div className={style.modalScreen}>
       <div className={style.content}>

@@ -5,13 +5,11 @@ import AllResultContainer from './_component/AllResult/AllResultContainer';
 import MyResult from './_component/MyResult';
 import { House } from 'lucide-react';
 import { useRouter } from '$/next/navigation';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
 export default function RankingPage() {
   const router = useRouter();
   const [level, setLevel] = useState<string>('1');
-  const queryClient = new QueryClient();
 
   const handleClickButton = (e:React.MouseEvent<HTMLButtonElement>)=>{
     console.log(e.currentTarget.name);
@@ -23,7 +21,7 @@ export default function RankingPage() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
+
       <div className={style.rankingPage}>
         <div className={style.title}>
           <button 
@@ -39,7 +37,7 @@ export default function RankingPage() {
         <AllResultContainer level={level}/>
         <MyResult level={level}/>      
       </div>
-    </QueryClientProvider>
+
   );
 }
 

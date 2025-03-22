@@ -7,6 +7,7 @@ import type { StaticImageData } from '$/next/image';
 import { CircleChevronLeft, CircleChevronRight } from 'lucide-react';
 import { useGameStore } from '@/store/game-store';
 import { GameCardsShuffle } from '@/common/util/cardShuffle';
+import { useShallow } from '$/zustand/react/shallow';
 
 const convertToWebp = (pngSrc: string | StaticImageData):Promise<string> => {
   const src = typeof pngSrc==="string" ? pngSrc : pngSrc.src;
@@ -42,8 +43,14 @@ const convertToWebp = (pngSrc: string | StaticImageData):Promise<string> => {
 
 
 export default function LevelSetModal() {
-  const { type, closeModal } = useModal();
-  const { onStart } = useGameStore();
+  const { type, closeModal } = useModal(
+    useShallow((state)=>({
+      type : state.type,
+      closeModal : state.closeModal
+    }))
+  );
+  const onStart  = useGameStore((state)=>state.onStart);
+
   const [level, setLevel] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

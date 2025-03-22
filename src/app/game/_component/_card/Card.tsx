@@ -6,6 +6,7 @@ import type { StaticImageData } from '$/next/image';
 import Image from '$/next/image';
 
 import { GoHeartFill } from "react-icons/go";
+import { useShallow } from '$/zustand/react/shallow';
 
 interface CardProp {
   content : [string, string | StaticImageData]
@@ -22,7 +23,18 @@ export default function Card({content}:CardProp) {
     resetStack, 
     matchedList, 
     matchPush
-  } = useGameStore();
+  } = useGameStore(
+    useShallow(({ remaining, setRemaining, prevCard, onFlipCard, resetStack, matchedList, matchPush }) => ({
+      remaining,
+      setRemaining,
+      prevCard,
+      onFlipCard,
+      resetStack,
+      matchedList,
+      matchPush,
+    }))
+  );
+  
   const [clickable, setClickable] = useState<boolean>(true);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
 

@@ -33,7 +33,11 @@
 
       background-color: var(--accentColor);
       @include font(0.9rem, 600, white);
-      @include flex(center, center)
+      @include flex(center, center);
+      &.loading{
+        pointer-events: none;
+        background-color: rgb(165, 165, 165);
+      }
     }
 
     .btn {
@@ -43,7 +47,11 @@
 
       background-color: var(--mainColor);
       @include font(0.9rem, 600, white);
-      @include flex(center, center)
+      @include flex(center, center);
+      &.loading{
+        pointer-events: none;
+        background-color: rgb(165, 165, 165);
+      }
     }
 
     span {

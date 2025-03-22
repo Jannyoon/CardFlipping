@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@/common/scss/global.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 import ModalProvider from "@/common/modal-component/modal-provider";
+import ReactQueryProvider from "@/common/ReactQueryProvider";
 //import MSWProvider from "@/mocks/MSWProvider";
 
 
@@ -18,6 +19,7 @@ export default function RootLayout({
 
   return (
     <ClerkProvider afterSignOutUrl={"/"}>
+      <ReactQueryProvider>
         <html lang="en">
           <body>     
             {/*<MSWProvider>*/}
@@ -26,7 +28,7 @@ export default function RootLayout({
             {/*</MSWProvider>*/}       
           </body>
         </html>
-
+      </ReactQueryProvider>
     </ClerkProvider>
   );
 }

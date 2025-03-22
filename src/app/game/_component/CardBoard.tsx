@@ -6,10 +6,20 @@ import { useGameStore } from '@/store/game-store';
 
 import Card from './_card/Card';
 import Timer from './_timer/Timer';
+import { useShallow } from '$/zustand/react/shallow';
 
 
 export default function CardBoard() {
-  const { remaining, setEndTime, setGameState, startTime, level, cardList} = useGameStore();
+  const { remaining, setEndTime, setGameState, startTime, level, cardList} = useGameStore(
+    useShallow(({ remaining, setEndTime, setGameState, startTime, level, cardList})=>({ 
+      remaining, 
+      setEndTime, 
+      setGameState, 
+      startTime, 
+      level, 
+      cardList
+    }))
+  );
 
   //매 렌더링 때마다 uuid가 새로 생성되는 것을 방지하기 위함
   const cardListId = useMemo(()=>{

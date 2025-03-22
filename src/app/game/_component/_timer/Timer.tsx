@@ -1,10 +1,13 @@
 import { useGameStore } from '@/store/game-store';
 import React, { useEffect, useState } from 'react';
 import style from './timer.module.scss';
+import { useShallow } from '$/zustand/react/shallow';
 
 export default function Timer() {
   const [time, setTime] = useState<number>(0);
-  const { gameState, endTime } = useGameStore();
+  const { gameState, endTime } = useGameStore(
+    useShallow((state)=>({gameState: state.gameState, endTime: state.endTime}))
+  );
 
   
   const secInMs = Math.floor(time / 1000);

@@ -20,7 +20,8 @@ type MyResultType = {
 };
 
 export default function MyResult({level}:MyResultProp) {
-  const {userPrevData} = useGameStore();
+  const userPrevData = useGameStore((state) => state.userPrevData);
+  
   const [myResult, setMyResult] = useState<MyResultType|null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
   const {minutes, seconds, ms} = calcTime(myResult? myResult.completionTime : null);
