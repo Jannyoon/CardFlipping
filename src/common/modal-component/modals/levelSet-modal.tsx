@@ -8,39 +8,8 @@ import { CircleChevronLeft, CircleChevronRight } from 'lucide-react';
 import { useGameStore } from '@/store/game-store';
 import { GameCardsShuffle } from '@/common/util/cardShuffle';
 import { useShallow } from '$/zustand/react/shallow';
-
-const convertToWebp = (pngSrc: string | StaticImageData):Promise<string> => {
-  const src = typeof pngSrc==="string" ? pngSrc : pngSrc.src;
-  return new Promise((resolve, reject)=>{
-    const img = new Image();
-    img.crossOrigin = "anonymous"; //CORS 이슈 방식
-    img.src = src;
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      if (!ctx){
-        reject("Canvas context is not supported");
-        return;
-      }
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      const webpDataURL = canvas.toDataURL("image/webp", 0.8);
-      resolve(webpDataURL); //png => webp, 80% quality
-      
-      //변환한 이미지 webp의 용량을 확인해보자
-      fetch(webpDataURL)
-      .then((res) => res.blob())
-      .then((blob)=>{
-        console.log("변환 사이즈 출력", blob.size);
-      })
-    
-    };
-
-    img.onerror = (error) => reject(error);
-  })
-}
-
+import { convertToWebp } from '@/common/util/convertToWebp';
+import workerCode from './webWorker/webpWorker';
 
 export default function LevelSetModal() {
   const { type, closeModal } = useModal(
@@ -65,13 +34,20 @@ export default function LevelSetModal() {
   };
 
   const handleButtonClick = async () => {
+
+    const blob = new Blob([workerCode], {type:'application/javascript'});
+    const worker = new Worker(URL.createObjectURL(blob));
+    if (!worker) return;
+    console.log("newWorker 생성 완료", worker);
     /*카드를 랜덤하게 선택*/
     const cardList = GameCardsShuffle(level===1 ? 5 : (level===2 ? 6 : 8));
+    const startTime = performance.now();
+
     try {
       setIsLoading(true);
       const convertedCardList: [string, string | StaticImageData][] = await Promise.all(
-        cardList.map((val) => 
-          convertToWebp(val[1]).then((webpUrl) => [val[0], webpUrl] as [string, string | StaticImageData])
+        cardList.map(async (val) => 
+          await convertToWebp(val[1], worker).then((webpUrl) => [val[0], webpUrl] as [string, string | StaticImageData])
         )
       );
       onStart(level, convertedCardList);
@@ -80,6 +56,9 @@ export default function LevelSetModal() {
       console.error("PNG to WEBP conversion failed:", error)
     } finally {
       setIsLoading(false);
+      const endTime = performance.now();
+      console.log("카드 변환시간", (endTime - startTime)/1000);
+      worker.terminate();
     }
   }
   
