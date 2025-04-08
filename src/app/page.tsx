@@ -5,8 +5,7 @@ import {
 } from '@tanstack/react-query';
 import Image from '$/next/image';
 import Link from 'next/link';
-import { useEffect, useState, useCallback } from 'react';
-import { User } from '$/.prisma/client';
+import { useEffect, useCallback } from 'react';
 import axios from '$/axios';
 
 import { useGameStore } from '@/store/game-store';
@@ -46,12 +45,9 @@ const Home = () => {
     throwOnError : true
   })
 
-
-  console.log("reactQuery 결과", data);
   //보류
   const handleAddSubmit = useCallback(async (nickname:string) => {
     if (!userId || !nickname){
-      console.log("userId 존재하지 않음. api 중단.");
       return;
     }
     try {
@@ -94,8 +90,8 @@ const Home = () => {
     <div id={style.home}>
       {data && (
         <div className={style.bannerImage}>
-          <Image src="/Main.png" alt="banner" fill 
-            sizes='(min-width:1536px) 100vw, 0px'
+          <Image src="/MainWebP.webp" alt="banner" fill 
+            sizes='(min-width:1536px) 100vw'
             loading="lazy" 
             quality={80}
           />
@@ -104,17 +100,17 @@ const Home = () => {
       <div className={style.title}>카드 뒤집기</div>
       <div className={style.btns}>
         <SignedOut>
-          <Link href={"/sign-in"} className={`${style.btn} ${isLoading ? style.loading : ""}`}>{isLoading ? "로딩 중" : "로그인"}</Link>
-          <Link href={"/game"} className={`${style.btn} ${isLoading ? style.loading : ""}`}>게임하기(비회원)</Link>
+          <Link href={"/sign-in"} prefetch className={`${style.btn} ${isLoading ? style.loading : ""}`}>{isLoading ? "로딩 중" : "로그인"}</Link>
+          <Link href={"/game"} prefetch className={`${style.btn} ${isLoading ? style.loading : ""}`}>게임하기(비회원)</Link>
         </SignedOut>
         <SignedIn>
           {data && <p><span>{data?.user.username}</span> 님 반가워요!</p>}  
           <SignOutButton>
             <button className={`${style.logOutBtn} ${isLoading ? style.loading : ""}`}>{isLoading ? "로딩 중" : "로그아웃"}</button>
           </SignOutButton>
-          <Link href={"/game"} className={`${style.btn} ${isLoading ? style.loading : ""}`}>게임하기</Link>
+          <Link href={"/game"} prefetch className={`${style.btn} ${isLoading ? style.loading : ""}`}>게임하기</Link>
         </SignedIn>
-        {data && <Link href={"/ranking"} className={`${style.btn} ${(isLoading) ? style.loading : ""}`}>랭킹</Link>}
+        {data && <Link prefetch href={"/ranking"} className={`${style.btn} ${(isLoading) ? style.loading : ""}`}>랭킹</Link>}
       </div>
       {data && (
         <div style={{'textAlign':'center', 'fontSize':'0.8rem'}}>
