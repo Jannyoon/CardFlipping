@@ -7,9 +7,8 @@ const nextConfig: NextConfig = {
       test: /\.worker\.js$/,
       type: 'asset/resource',
     });
-
     return config;
-  }
+  },
 };
 
 export default nextConfig;

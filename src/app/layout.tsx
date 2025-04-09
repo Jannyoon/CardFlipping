@@ -25,7 +25,8 @@ export default function RootLayout({
             {/*<MSWProvider>*/}
               {children}            
               <ModalProvider/>
-            {/*</MSWProvider>*/}       
+            {/*</MSWProvider>*/} 
+
           </body>
         </html>
       </ReactQueryProvider>
