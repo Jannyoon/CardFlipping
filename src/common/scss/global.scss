@@ -47,7 +47,7 @@ a {
 }
 
 #root {
-  background-color: #1f1d1d;
+  background-color: var(--background);
   @include flex(center, center, column);
   width: 100vw;
   height: 100vh;

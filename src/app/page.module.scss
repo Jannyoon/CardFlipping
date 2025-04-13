@@ -2,7 +2,6 @@
 
 
 #home {
-  background-color: white;
   width : 90vw;
   height : 90vh;
   border : 10px double var(--mainColor);
@@ -54,7 +53,9 @@
         background-color: rgb(165, 165, 165);
       }
     }
-
+    p {
+      color : rgb(0, 0, 0);
+    }
     span {
       font-weight: 600;
       color : rgb(0, 0, 0);
