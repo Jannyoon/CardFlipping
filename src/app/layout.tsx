@@ -3,8 +3,6 @@ import "@/common/scss/global.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 import ModalProvider from "@/common/modal-component/modal-provider";
 import ReactQueryProvider from "@/common/ReactQueryProvider";
-import MSWProvider from "@/mocks/MSWProvider";
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,12 +20,8 @@ export default function RootLayout({
       <ReactQueryProvider>
         <html lang="en">
           <body>     
-            {/*<MSWProvider>*/}
               {children}            
               <ModalProvider/>
-            {/*</MSWProvider>*/}
-          
-
           </body>
         </html>
       </ReactQueryProvider>
