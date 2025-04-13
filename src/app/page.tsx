@@ -129,7 +129,7 @@ const Home = () => {
         <MenuComponents isLoading={isLoading} data={data} username={username}/>
       </div>
       {data && (
-        <div style={{'textAlign':'center', 'fontSize':'0.8rem'}}>
+        <div style={{'textAlign':'center', 'fontSize':'0.8rem', 'color':'black'}}>
           <p>개발 - @즈토</p>
           <p>일러스트 - @0312</p>
           <p>아이디어 - @솔로몬</p>
