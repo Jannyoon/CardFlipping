@@ -3,7 +3,7 @@ import { create } from 'zustand';
 export type ModalType = "signUp"|"gameSet"|null;
 
 
-interface ModalStoreType<T = any> {
+interface ModalStoreType<T = unknown> {
   type : ModalType | null;
   isOpen : boolean;
   data? : T|null; //입력받는 데이터 저장할 곳
