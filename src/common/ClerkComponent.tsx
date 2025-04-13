@@ -3,9 +3,17 @@ import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs';
 import style from '@/app/page.module.scss';
 import Link from 'next/link';
 import Spinner from './Spinner';
+import { Result, User } from '$/.prisma/client';
+
+
+interface DataType {
+  user ?: User,
+  result ?: Result[]
+}
+
 interface ClerkComponentProps {
   isLoading : boolean;
-  data:any;
+  data:DataType;
   username : string|null;
 }
 
@@ -21,7 +29,7 @@ export default function MenuComponents({isLoading, data, username}:ClerkComponen
       </SignedOut>
       <SignedIn>
         {username && <p><span>{username}</span> 님 반가워요!</p>}  
-        {!username && <p><span>{data?.user.username || username}</span> 님 반가워요!</p>}  
+        {!username && <p><span>{data?.user?.username || username}</span> 님 반가워요!</p>}  
         <SignOutButton>
           <button className={style.logOutBtn}>로그아웃</button>
         </SignOutButton>

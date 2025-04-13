@@ -11,6 +11,12 @@ import { useModal } from '@/store/modal-store';
 import { useShallow } from 'zustand/react/shallow';
 import style from './page.module.scss';
 import MenuComponents from '@/common/ClerkComponent';
+import { Result, User } from '$/.prisma/client';
+
+interface DataType {
+  user ?: User,
+  result ?: Result[]
+}
 
 const fetchUser = async () => {
   console.log('fetched');
@@ -25,7 +31,7 @@ const fetchUser = async () => {
       return parsed.data;
     }
   }
-  const { data } = await axios.get('/api/user');
+  const { data }:{data:DataType} = await axios.get('/api/user');
   if (data?.user?.userId){
     //console.log("데이터 캐싱한다!", data);
     localStorage.setItem('cachedUser', JSON.stringify({ 
