@@ -18,12 +18,15 @@ interface DataType {
   result ?: Result[]
 }
 
-const fetchUser = async () => {
+const fetchUser = async (currentUserId:string | null | undefined) => {
   console.log('fetched');
   const cached = localStorage.getItem('cachedUser');
   if (cached){
     console.log("캐시 유저 있다!", cached);
     const parsed = JSON.parse(cached);
+    if (parsed.data.user.userId!==currentUserId){
+      localStorage.removeItem('cachedItem');
+    }
     const now = Date.now();
     const savedAt = parsed.savedAt ?? 0;
 
@@ -61,7 +64,7 @@ const Home = () => {
 
   const {data, isLoading, error}= useQuery({
     queryKey:['user', userId],
-    queryFn : fetchUser,
+    queryFn : () => fetchUser(userId),
     enabled : isLoaded && !!userId,
     retry : 1,
     staleTime : 1000*60*5,
