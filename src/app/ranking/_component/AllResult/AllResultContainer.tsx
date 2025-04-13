@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import style from './allResultContainer.module.scss';
 import SingleResult from './SingleResult';
 import { getResults } from '@/common/lib/getResults';
+import Skeleton from './_Skeleton/Skeleton';
 
 
 interface AllResultContainerProp {
@@ -40,8 +41,6 @@ export default function AllResultContainer({level}:AllResultContainerProp) {
     threshold: 0.8,
   });
 
-  console.log("그냥 데이터", data);
-
 
   useEffect(()=>{
     if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -51,7 +50,15 @@ export default function AllResultContainer({level}:AllResultContainerProp) {
     return (
       <div className={style.container}>
         <div className={style.contents}>
-          Loading...
+          <Skeleton/>
+          <Skeleton/>
+          <Skeleton/>
+          <Skeleton/>
+          <Skeleton/>
+          <Skeleton/>
+          <Skeleton/>
+          <Skeleton/>
+          <Skeleton/>
         </div>
       </div>
     )

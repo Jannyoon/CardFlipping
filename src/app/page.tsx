@@ -95,12 +95,10 @@ const Home = () => {
     if (data.user?.userId){
       setUserPrevData(data);
     }
-
     if (error){
       console.log(error);
       alert("서버 오류가 발생했습니다.")
     }
-
   }, [data, openModal, userId, handleAddSubmit, setUserPrevData, error])
 
 

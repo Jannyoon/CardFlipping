@@ -14,7 +14,7 @@ import { useShallow } from '$/zustand/react/shallow';
 export default function ResultModal(){
   const { userId } = useAuth();
   const router = useRouter();
-  const { userPrevData, gameState, onReset, startTime, endTime, level } = useGameStore(
+  const { userPrevData, onReset, startTime, endTime, level } = useGameStore(
     useShallow(({ userPrevData, gameState, onReset, startTime, endTime, level })=>(
       { 
         userPrevData, 
@@ -53,7 +53,7 @@ export default function ResultModal(){
     router.push('/ranking');
   }
 
-  if (gameState==='end') return (
+  return (
     <div className={style.modalScreen}>
       <div className={style.content}>
         <div className={style.topLevelContainer}>
@@ -76,7 +76,5 @@ export default function ResultModal(){
       </div>
     </div>
   );
-
-  return (<div></div>)
 }
 

@@ -12,7 +12,7 @@ import { convertToWebp } from '@/common/util/convertToWebp';
 import workerCode from './webWorker/webpWorker';
 
 export default function LevelSetModal() {
-  const { type, closeModal } = useModal(
+  const { closeModal } = useModal(
     useShallow((state)=>({
       type : state.type,
       closeModal : state.closeModal
@@ -62,7 +62,7 @@ export default function LevelSetModal() {
     }
   }
   
-  if (type==='gameSet') return (
+  return (
     <div className={style.modalScreen}>
       <div className={style.content}>
         <div className={style.topLevelContainer}>
@@ -80,7 +80,5 @@ export default function LevelSetModal() {
       </div>
     </div>
   );
-
-  return (<div></div>)
 }
 

@@ -6,7 +6,7 @@ import { useModal } from '@/store/modal-store';
 //user 닉네임
 
 export default function AddUserModal() {
-  const { type, callback, closeModal } = useModal();
+  const { callback, closeModal } = useModal();
   const handleAddNewUser = (e : React.FormEvent<HTMLFormElement>)=> {
     e.preventDefault();
     const nickname:string = e.currentTarget.nickname.value;
@@ -18,7 +18,7 @@ export default function AddUserModal() {
     }
   }
   
-  if (type==='signUp') return (
+  return (
     <div className={style.modalScreen}>
       <div className={style.content}>
         <p>신규 유저</p>
@@ -30,6 +30,6 @@ export default function AddUserModal() {
     </div>
   );
 
-  return (<div></div>)
+
 }
 

@@ -1,8 +1,7 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import style from './singleResult.module.scss';
 import { calcTime } from '@/common/util/calcTime';
-import { useGameStore } from '@/store/game-store';
 
 
 interface Result {
@@ -17,18 +16,26 @@ interface Result {
 }
 
 export default function SingleResult({result}:{result:Result}) {
-  const {userPrevData} = useGameStore();
-  const {achievedAt} = result;
-  const {minutes, seconds, ms} = calcTime(result.completionTime);
+
+  const MinSecMs = useMemo(()=>{
+    const {minutes, seconds, ms} = calcTime(result.completionTime);
+    return `${String(minutes).padStart(2,'0')} : ${String(seconds).padStart(2,'0')} : ${String(ms).padStart(3,'0')}`
+  }, [result]);
+
+
+  const AchievedTime = useMemo(()=>{
+    const {achievedAt} = result;
+    return `${achievedAt.getFullYear()}-${String(achievedAt.getMonth()+1).padStart(2,'0')}-${String(achievedAt.getDate()).padStart(2, '0')}`
+  }, [result]);
+
 
   return (
-    <div className={`${style.container} ${userPrevData?.user.userId===result.userId ? style.mine : ''}`}>
+    <div className={style.container}>
       <div>{result.rank}등</div>
       <div className={style.username}><p>{result.user.username}</p></div>
       <div>Level {result.levelId}</div>
-      <div className={style.time}>{String(minutes).padStart(2,'0')} : {String(seconds).padStart(2,'0')} : {String(ms).padStart(3,'0')}</div>
-      <div className={style.noneborder}>
-        {`${achievedAt.getFullYear()}-${String(achievedAt.getMonth()+1).padStart(2,'0')}-${String(achievedAt.getDate()).padStart(2, '0')}`}
+      <div className={style.time}>{MinSecMs}</div>
+      <div className={style.noneborder}>{AchievedTime}
       </div> {/*getFullYear(), getMonth(), getDate()*/}
     </div>
   );

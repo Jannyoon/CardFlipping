@@ -1,0 +1,123 @@
+@import '@/common/scss/_mixin.scss';
+
+.container {
+  width : 100%;
+  height : 4rem;
+
+  padding-top : 0.9rem;
+  padding-bottom : 0.9rem;
+  border-bottom : 0.5px solid rgba(96, 96, 96, 0.475);
+  
+  @include flex(center, center);
+
+
+  div {
+    width : 100%;
+    height : 100%;
+    text-align: center;
+
+    @include font(0.6rem, 400, black);
+    @include flex($justify : center, $direction: column);
+    overflow: hidden;
+    border-right : 2px solid rgba(50, 50, 50, 0.304);
+
+
+    &.noneborder {
+      border : none;
+    }
+  }
+
+  .rank {
+    @include flex(center, center);
+    span {
+      width : 1.5rem;
+      height : 1rem;
+      background-color: rgb(240, 215, 235);
+    }
+  }
+
+  .username {
+    flex-basis: 200%;
+    @include flex(center, center);
+    span {
+      width : 4rem;
+      height : 1rem;
+      background-color: rgb(240, 215, 235);
+    }
+  }
+
+  
+  .level {
+    @include flex(center, center);
+    span {
+      width : 1.5rem;
+      height : 1rem;
+      background-color: rgb(240, 215, 235);
+    }
+  }
+
+  .time {
+    @include font(0.5rem, 400, black);
+  }
+
+  .noneborder {
+    @include flex(center, center);
+    span {
+      width : 1.5rem;
+      height : 1rem;
+      background-color: rgb(240, 215, 235);
+    }
+  }
+
+}
+
+@media (min-width:$Md){
+  .container {
+    height : 4.5rem;
+    div {
+      @include font(1rem, 400, black);
+    }
+    p, .noneborder, .time {
+      @include font(0.8rem, 400, black);
+    }
+
+
+    .rank {
+      @include flex(center, center);
+      span {
+        width : 2rem;
+        height : 1rem;
+        background-color: rgb(240, 215, 235);
+      }
+    }
+  
+    .username {
+      flex-basis: 200%;
+      @include flex(center, center);
+      span {
+        width : 6rem;
+        height : 1rem;
+        background-color: rgb(240, 215, 235);
+      }
+    }
+  
+    
+    .level {
+      @include flex(center, center);
+      span {
+        width : 3rem;
+        height : 1rem;
+        background-color: rgb(240, 215, 235);
+      }
+    }
+
+    .noneborder {
+      @include flex(center, center);
+      span {
+        width : 3rem;
+        height : 1rem;
+        background-color: rgb(240, 215, 235);
+      }
+    }
+  }
+}

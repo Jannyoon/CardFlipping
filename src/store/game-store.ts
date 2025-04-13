@@ -2,11 +2,11 @@ import { User, Result } from '$/.prisma/client';
 import {create} from 'zustand';
 import type { StaticImageData } from '$/next/image';
 
-interface UserData extends User{
+export interface UserData extends User{
   result: Result[]
 }
 
-interface PrevData {
+export interface PrevData {
   user: UserData;
 }
 
