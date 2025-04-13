@@ -2,8 +2,8 @@ import { create } from 'zustand';
 
 export type ModalType = "signUp"|"gameSet"|null;
 
-
-interface ModalStoreType<T = unknown> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface ModalStoreType<T = any> {
   type : ModalType | null;
   isOpen : boolean;
   data? : T|null; //입력받는 데이터 저장할 곳
