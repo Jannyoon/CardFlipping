@@ -75,6 +75,7 @@ const Home = () => {
           username: data.user.username
         };
         localStorage.setItem('userKey', JSON.stringify(userKey));
+        localStorage.setItem('userData', JSON.stringify(data));
       }
       setData(data); //api에서 유저 없으면 알아서 user : null이 될 거임
     } catch(error){
@@ -95,12 +96,14 @@ const Home = () => {
     if (savedUserKey && JSON.parse(savedUserKey).userId!==userId){
       console.log("유저 변경 감지");
       localStorage.removeItem('userKey');
+      localStorage.removeItem('userData');
       setUsername(null);
       setData(null);
       return
     }
     if (!userId){
       localStorage.removeItem('userKey');
+      localStorage.removeItem('userData');
       setUsername(null);
       setData(null);
       return

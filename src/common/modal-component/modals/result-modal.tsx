@@ -9,15 +9,15 @@ import { calcTime } from '@/common/util/calcTime';
 import timeDiff from '@/common/util/timeDiff';
 import { PiCrownFill } from "react-icons/pi";
 import { useShallow } from '$/zustand/react/shallow';
+import { Result } from '$/.prisma/client';
 
 
 export default function ResultModal(){
   const { userId } = useAuth();
   const router = useRouter();
-  const { userPrevData, onReset, startTime, endTime, level } = useGameStore(
-    useShallow(({ userPrevData, gameState, onReset, startTime, endTime, level })=>(
+  const { onReset, startTime, endTime, level } = useGameStore(
+    useShallow(({  gameState, onReset, startTime, endTime, level })=>(
       { 
-        userPrevData, 
         gameState, 
         onReset, 
         startTime, 
@@ -27,13 +27,18 @@ export default function ResultModal(){
     ))
   );
   const {difference, minutes, seconds, ms} = timeDiff(startTime, endTime)
-  
+  const userData = localStorage.getItem('userData');
   const prevLevelResult = useMemo(()=>{
-    const prevCompletionTime = userPrevData?.user.result.find((val)=>val.levelId===level)?.completionTime||null;
+    if (!userData) return {prevCompletionTime:null, minutes:0, seconds:0, ms:0};
+    const parsed = JSON.parse(userData);
+
+    const prevCompletionTime = parsed.user.result.find((val:Result)=>val.levelId===level)?.completionTime||null;
     const {minutes, seconds, ms} = calcTime(prevCompletionTime);
     return {prevCompletionTime, minutes, seconds, ms}
-  },[level, userPrevData?.user.result]);
+  },[level, userData]);
 
+
+  console.log("저장된 유저 데이터", prevLevelResult);
   useEffect(()=>{
     const postResult = async ()=>{
       if (!userId || !endTime) return;
