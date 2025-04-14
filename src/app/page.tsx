@@ -89,6 +89,16 @@ const Home = () => {
     onReset();
 
     if (typeof window==='undefined') return;
+    const savedUserKey = localStorage.getItem('userKey');
+    console.log("현재 userId", userId, 'localStorage Key', savedUserKey);
+
+    if (savedUserKey && JSON.parse(savedUserKey).userId!==userId){
+      console.log("유저 변경 감지");
+      localStorage.removeItem('userKey');
+      setUsername(null);
+      setData(null);
+      return
+    }
     if (!userId){
       localStorage.removeItem('userKey');
       setUsername(null);
