@@ -72,7 +72,7 @@ export default function MyResult({level}:MyResultProp) {
       localStorage.setItem('myRanking', JSON.stringify(userPrevData));
     }
     fetchResult();
-  }, [fetchResult, userPrevData]);
+  }, [fetchResult, userPrevData, userId]);
 
 
   if (!userId && isLoaded) return (

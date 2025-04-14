@@ -18,19 +18,16 @@ interface DataType {
   result ?: Result[]
 }
 
-const fetchUser = async (currentUserId:string | null | undefined) => {
+const fetchUser = async (userId:string|undefined|null) => {
   console.log('fetched');
   const cached = localStorage.getItem('cachedUser');
   if (cached){
     console.log("캐시 유저 있다!", cached);
     const parsed = JSON.parse(cached);
-    if (parsed.data.user.userId!==currentUserId){
-      localStorage.removeItem('cachedItem');
-    }
     const now = Date.now();
     const savedAt = parsed.savedAt ?? 0;
 
-    if ((now - savedAt)< 1000*60*5){ //캐싱 예정 시간보다 적으면
+    if ((now - savedAt)< 1000*60*5 && parsed.user.userId===userId){ //캐싱 예정 시간보다 적으면
       return parsed.data;
     }
   }
@@ -64,8 +61,8 @@ const Home = () => {
 
   const {data, isLoading, error}= useQuery({
     queryKey:['user', userId],
-    queryFn : () => fetchUser(userId),
-    enabled : isLoaded && !!userId,
+    queryFn : ()=>fetchUser(userId),
+    enabled : isLoaded && !!userId && (typeof window !=='undefined'),
     retry : 1,
     staleTime : 1000*60*5,
     throwOnError : true
