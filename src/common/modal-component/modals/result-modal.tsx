@@ -36,13 +36,10 @@ export default function ResultModal(){
     const {minutes, seconds, ms} = calcTime(prevCompletionTime);
     return {prevCompletionTime, minutes, seconds, ms}
   },[level, userData]);
-
-
   console.log("저장된 유저 데이터", prevLevelResult);
   useEffect(()=>{
     const postResult = async ()=>{
       if (!userId || !endTime) return;
-      console.log(endTime, '내 endTime 내놔라');
       try {
         const response = await axios.post('/api/result', {userId, level, endTime, diff:difference});
         console.log("성공한 응답", response);
