@@ -30,7 +30,8 @@ export const POST = async (req: Request) => {
       await db.result.update({
         where : {id : existingLevelResult.id},
         data : {
-          completionTime: diff
+          completionTime: diff,
+          achievedAt: endTime
         }
       })
     }
