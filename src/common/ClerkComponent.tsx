@@ -13,7 +13,7 @@ interface DataType {
 
 interface ClerkComponentProps {
   isLoading : boolean;
-  data:DataType;
+  data?:DataType;
   username : string|null;
 }
 

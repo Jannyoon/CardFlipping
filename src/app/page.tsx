@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@clerk/nextjs';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from '$/next/image';
 import { useEffect, useCallback, useState } from 'react';
 import axios from '$/axios';
@@ -18,39 +18,15 @@ interface DataType {
   result ?: Result[]
 }
 
-const fetchUser = async (userId:string|undefined|null) => {
-  console.log('fetched');
-  const cached = localStorage.getItem('cachedUser');
-  if (cached){
-    console.log("캐시 유저 있다!", cached);
-    const parsed = JSON.parse(cached);
-    const now = Date.now();
-    const savedAt = parsed.savedAt ?? 0;
-
-    if ((now - savedAt)< 1000*60*5 && parsed.user.userId===userId){ //캐싱 예정 시간보다 적으면
-      return parsed.data;
-    }
-  }
+const fetchUser = async () => {
   const { data }:{data:DataType} = await axios.get('/api/user');
-  if (data?.user?.userId){
-    //console.log("데이터 캐싱한다!", data);
-    localStorage.setItem('cachedUser', JSON.stringify({ 
-      data, 
-      savedAt: Date.now() 
-    }));
-  }
   return data; //api에서 유저 없으면 알아서 user : null이 될 거임
 };
 
 const Home = () => {
   const { userId, isLoaded } = useAuth();  
   const [username, setUsername] = useState<string|null>(null);
-  const {setUserPrevData, onReset} = useGameStore(
-    useShallow((state)=>({
-      setUserPrevData : state.setUserPrevData,
-      onReset: state.onReset
-    }))
-  );
+  const onReset = useGameStore((state)=> state.onReset);
 
   const { openModal, closeModal } = useModal(
     useShallow((state)=>({ 
@@ -58,14 +34,16 @@ const Home = () => {
       closeModal:state.closeModal 
     }))
   )
-
+  const queryClient = useQueryClient();
   const {data, isLoading, error}= useQuery({
     queryKey:['user', userId],
-    queryFn : ()=>fetchUser(userId),
+    queryFn : fetchUser,
     enabled : isLoaded && !!userId && (typeof window !=='undefined'),
     retry : 1,
     staleTime : 1000*60*5,
-    throwOnError : true
+    throwOnError : true,
+    refetchOnWindowFocus: true, // 🔁 포커싱 시 다시 요청
+    refetchOnMount: true,       // 🔁 마운트 시마다 다시 요청
   })
 
   //보류
@@ -77,6 +55,13 @@ const Home = () => {
       const response = await axios.post('/api/user', {userId, username:nickname});
       console.log("성공한 응답", response);
       setUsername(nickname);
+      const userKey = {
+        userId,
+        username: nickname
+      };
+      localStorage.setItem('userKey', JSON.stringify(userKey));
+      queryClient.invalidateQueries({queryKey: ['user', userId]})
+
     } catch (error){
       alert("유저 등록 실패");
       if (axios.isAxiosError(error)) {
@@ -85,27 +70,40 @@ const Home = () => {
         console.log("기타 에러:", error);
       }
     }
-  }, [userId]);
+  }, [userId, queryClient]);
 
   useEffect(()=>{
+    if (typeof window==='undefined') return;
+    if (!isLoaded || isLoading) return;
+
     if (!data){
-      const cached = localStorage.getItem('cachedUser');
-      if (cached) localStorage.removeItem('cachedUser');
-      return;}
-    if (!data?.user?.userId){
+      localStorage.removeItem('userKey');
+      return
+    };
+
+    if (data?.user?.userId){
+      const userKey = {
+        userId,
+        username: data.user.username
+      };
+      localStorage.setItem('userKey', JSON.stringify(userKey));
+      return;
+    }
+
+    if (userId && !data?.user?.userId){
       alert("유저가 존재하지 않습니다."); //debug
       openModal("signUp", {userId: userId}, (username)=>{
         handleAddSubmit(username);
       });
+      return;
     }
-    if (data.user?.userId){
-      setUserPrevData(data);
-    }
+
+
     if (error){
       console.log(error);
       alert("서버 오류가 발생했습니다.")
     }
-  }, [data, openModal, userId, handleAddSubmit, setUserPrevData, error])
+  }, [isLoaded, isLoading, data, openModal, userId, handleAddSubmit, error])
 
 
   useEffect(()=>{

@@ -1,7 +1,6 @@
 'use client';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import style from './myResult.module.scss';
-import { useGameStore } from '@/store/game-store';
 import { getMyLevelResult } from '@/common/lib/getMyLevelResult';
 import { calcTime } from '@/common/util/calcTime';
 import { useAuth } from '@clerk/nextjs';
@@ -22,8 +21,6 @@ type MyResultType = {
 
 export default function MyResult({level}:MyResultProp) {
   const { userId, isLoaded } = useAuth();
-  const userPrevData = useGameStore((state) => state.userPrevData);
-
   const [myResult, setMyResult] = useState<MyResultType|null>(null);
   const [isPending, setIsPending] = useState<boolean>(false);
   const [name, setName] = useState<string>('^ ㅡ ^');
@@ -43,36 +40,30 @@ export default function MyResult({level}:MyResultProp) {
 
   const fetchResult = useCallback(async ()=>{
     setIsPending(true);
-    const cachedData = localStorage.getItem('myRanking');
-    if (!userPrevData && !cachedData) return;
+    const cachedData = localStorage.getItem('userKey');
+    if (!cachedData || !userId) return;
     try {
+      const data = await getMyLevelResult(userId, level);
+      setMyResult(data);
+
       if (cachedData){
         const parsed = JSON.parse(cachedData);
-        const data = await getMyLevelResult(parsed.user.userId, level);
-        setMyResult(data);
-        setName(parsed.user.username);
+        if (parsed.userId === userId) setName(parsed.username);
       }
-      else if (userPrevData){
-        const data = await getMyLevelResult(userPrevData.user.userId, level);
-        setMyResult(data);
-        setName(userPrevData.user.username);
-      }
+      else setName('Guest');
     }
     catch (error){
       console.log(error);
     } finally {
       setIsPending(false);
     }
-  }, [level, userPrevData]);
+  }, [level, userId]);
 
 
 
   useEffect(()=>{
-    if (userPrevData){
-      localStorage.setItem('myRanking', JSON.stringify(userPrevData));
-    }
     fetchResult();
-  }, [fetchResult, userPrevData, userId]);
+  }, [fetchResult,  userId]);
 
 
   if (!userId && isLoaded) return (

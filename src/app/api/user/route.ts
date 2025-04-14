@@ -36,7 +36,7 @@ export const POST = async (req: Request) => {
       }
     })
     console.log("NEW USER CREATED")
-    return NextResponse.json(newUser, {status : 200});
+    return NextResponse.json({user:newUser}, {status : 200});
   } catch (error){
     console.log("[SERVER POST ERROR]", error);
     return NextResponse.json("Internal ERROR", {status:500})
