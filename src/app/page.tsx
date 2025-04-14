@@ -62,18 +62,20 @@ const Home = () => {
     setIsLoading(true);
     try {
       const { data }:{data:DataType} = await axios.get('/api/user');
-      if (!data.user?.userId){
+      if (!data) return;
+      if (data && !data.user?.userId){
         alert("유저가 존재하지 않습니다."); //debug
         openModal("signUp", {userId: userId}, (username)=>{
           handleAddSubmit(username);
         });
-        return;
       }
-      const userKey = {
-        userId,
-        username: data.user.username
-      };
-      localStorage.setItem('userKey', JSON.stringify(userKey));
+      if (data.user?.username){
+        const userKey = {
+          userId,
+          username: data.user.username
+        };
+        localStorage.setItem('userKey', JSON.stringify(userKey));
+      }
       setData(data); //api에서 유저 없으면 알아서 user : null이 될 거임
     } catch(error){
       console.log(error);
