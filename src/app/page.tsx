@@ -79,7 +79,7 @@ const Home = () => {
         localStorage.setItem('userData', JSON.stringify(data));
       }
       setData(data); //api에서 유저 없으면 알아서 user : null이 될 거임
-      setUsername(data.user ? data.user.username : 'Guest');
+      if (data.user && data.user.username) setUsername(data.user.username);
     } catch(error){
       console.log(error);
     } finally {
