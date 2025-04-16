@@ -70,6 +70,7 @@ const Home = () => {
         });
       }
       if (data.user?.username){
+        console.log("현재 데이터를 출력", data.user);
         const userKey = {
           userId,
           username: data.user.username
@@ -78,6 +79,7 @@ const Home = () => {
         localStorage.setItem('userData', JSON.stringify(data));
       }
       setData(data); //api에서 유저 없으면 알아서 user : null이 될 거임
+      setUsername(data.user ? data.user.username : 'Guest');
     } catch(error){
       console.log(error);
     } finally {
