@@ -114,6 +114,13 @@ Lighthouse를 사용하여 성능을 측정하고, FCP, LCP, CLS, TBT를 기준�
 - 이후 페이지 전환 시 사용자 체감 속도가 크게 향상됨.
 <br/>
 <br/>
+<img src="https://github.com/user-attachments/assets/dcdee743-1797-4179-b54f-be9ea2cb82b7" width=600>
+<img src="https://github.com/user-attachments/assets/0a192857-ae56-4cb0-aa2e-794fc4179d9f" width=600>
+<img src="https://github.com/user-attachments/assets/72684b9e-106e-4166-97d9-a2deeeca0fef" width=600>
+<img src="https://github.com/user-attachments/assets/ec610cf1-522f-433b-91dd-a7db962d84bb" width=600>
+<img src="https://github.com/user-attachments/assets/71c3c2bf-a66c-4323-bc35-3579be532dc4" width=600>
+<img src="https://github.com/user-attachments/assets/e5dc6ea8-c980-4863-9d64-204a7825cfa9" width=600>
+
 
 
 # 작성한 Notion 기술 문서
