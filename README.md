@@ -87,27 +87,28 @@ Fisher-Yates Shuffle 알고리즘을 사용하여 O(N)의 시간복잡도로 카
 
 
 ### Zustand 상태 관리
-Zustand에서 Selector Pattern과 Shallow 비교 함수를 사용하여, 필요한 State만 구독하고 해당 State가 변경될 때만 컴포넌트가 리렌더링되도록 최적화했습니다.
+Zustand에서 Selector Pattern과 Shallow 비교 함수를 사용하여, 필요한 State만 구독하고 해당 State가 변경될 때만 컴포넌트가 리렌더링되도록 최적화했습니다.<br/>
 React Context API와 달리, Zustand는 선택적 구독이 가능해 불필요한 리렌더링을 방지할 수 있으며, 전역 상태를 간편하게 관리할 수 있는 장점이 있습니다.
-다만 Zustand의 store는 메모리 기반이기 때문에 새로고침 시 데이터가 초기화되는 단점이 있습니다. 
-이를 보완하기 위해 필요한 경우 localStorage를 연동하여 상태를 지속적으로 유지할 수 있도록 구현했습니다.
+다만 Zustand의 store는 메모리 기반이기 때문에 새로고침 시 데이터가 초기화되는 단점이 있습니다. <br/>
+이를 보완하기 위해 필요한 경우 localStorage를 연동하여 상태를 지속적으로 유지할 수 있도록 구현했습니다.<br/>
 <br/>
 <br/>
 
 
 ### Tanstack Query + Intersection Observer를 사용한 무한 스크롤
-Tanstack Query Stale Time을 설정해서 데이터를 캐싱하여 서버 요청을 최소화했습니다.
-Intersection Observer를 함께 활용하여 특정 영역이 Inview=true면 다음 페이지를 불러오는 방식입니다.
-queryFn에 연결된 함수는 다음 페이지 데이터를 db에서 가져오는데 Server Action 기반으로 데이터를 전송받기 때문에 데이터의 신뢰성을 보장할 수 있습니다.
+Tanstack Query Stale Time을 설정해서 데이터를 캐싱하여 서버 요청을 최소화했습니다.<br/>
+Intersection Observer를 함께 활용하여 특정 영역이 Inview=true면 다음 페이지를 불러오는 방식입니다.<br/>
+queryFn에 연결된 함수는 다음 페이지 데이터를 db에서 가져오는데 Server Action 기반으로 데이터를 전송받기 때문에 데이터의 신뢰성을 보장할 수 있습니다.<br/>
 <br/>
 <br/>
 
 
 ### 웹 성능 테스트 및 개선
-Lighthouse를 사용하여 성능을 측정하고, FCP, LCP, CLS, TBT를 기준으로 최적화 작업을 진행했습니다. <br/>
-코드 스플리팅 및 지연 로딩(Lazy Loading)을 적용하여 초기 로딩 시간을 최적화하고, ssr:false 옵션을 활용해 사용자 인터랙션 전에 필요한 리소스만 로드되도록 했습니다.<br/>
-또한 페이지 전환 시 초기에 사용자에게 보여질 UI를 빈 태그가 아닌 의미있는 데이터(First Meaningful Paint)를 미리 지정하여 hydration 과정에서 생길 mismatch를 줄였습니다.<br/>
-위 최적화 과정들을 거쳐 페이지 전환 딜레이 이슈를 해결하였고 성능 지표 점수를 향상시켰습니다.<br/>
+Lighthouse를 사용하여 성능을 측정하고, FCP, LCP, CLS, TBT를 기준으로 웹 페이지 최적화 작업을 수행했습니다.<br/>
+코드 스플리팅과 지연 로딩(Lazy Loading)을 적용하여 초기 로딩 시간을 줄이고, ssr: false 옵션을 활용해 사용자 인터랙션 이전에 필요한 리소스만 선별적으로 로드되도록 구성했습니다.<br/>
+<br/>
+또한 페이지 전환 시, LCP(Largest Contentful Paint) 대상이 되는 주요 콘텐츠를 미리 렌더링하여 초기 화면에 빈 태그가 보이지 않도록 했고, 이것으로 hydration 과정에서의 mismatch 발생 가능성을 줄였습니다.<br/>
+이러한 최적화 과정을 통해 페이지 전환 시 발생하던 딜레이 이슈를 해결하고, 실제 사용자 체감 속도를 크게 향상시켰습니다.<br/>
 - Lighthouse Performance : 70점 → 85점 → 96점
 - TBT : 1380ms → 450ms → 0
 - 이후 페이지 전환 시 사용자 체감 속도가 크게 향상됨.
@@ -115,4 +116,13 @@ Lighthouse를 사용하여 성능을 측정하고, FCP, LCP, CLS, TBT를 기준�
 <br/>
 
 
+# 작성한 Notion 기술 문서
+- Next.js 클라이언트에서 서버 데이터 안전하게 가져오기: Axios & zustand 상태 관리
+https://www.notion.so/Next-js-Axios-zustand-18cf54df042b8030b68ffee1e799d764?pvs=21) 
+
+- Next.js 페이지 전환 딜레이 이슈 분석 및 최적화 고찰
+https://www.notion.so/Next-js-1d7f54df042b80a981aff0fa1f88b1b9?pvs=21 
+
+- Web Worker를 활영한 브라우저 성능 최적화
+https://www.notion.so/Web-Worker-1caf54df042b80b1b13ece317c70a1e3?pvs=21
 
