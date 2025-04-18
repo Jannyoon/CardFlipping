@@ -99,6 +99,8 @@ React Context API와 달리, Zustand는 선택적 구독이 가능해 불필요�
 Tanstack Query Stale Time을 설정해서 데이터를 캐싱하여 서버 요청을 최소화했습니다.
 Intersection Observer를 함께 활용하여 특정 영역이 Inview=true면 다음 페이지를 불러오는 방식입니다.
 queryFn에 연결된 함수는 다음 페이지 데이터를 db에서 가져오는데 Server Action 기반으로 데이터를 전송받기 때문에 데이터의 신뢰성을 보장할 수 있습니다.
+<br/>
+<br/>
 
 
 ### 웹 성능 테스트 및 개선
@@ -109,4 +111,8 @@ Lighthouse를 사용하여 성능을 측정하고, FCP, LCP, CLS, TBT를 기준�
 - Lighthouse Performance : 70점 → 85점 → 96점
 - TBT : 1380ms → 450ms → 0
 - 이후 페이지 전환 시 사용자 체감 속도가 크게 향상됨.
+<br/>
+<br/>
+
+
 
