@@ -104,7 +104,7 @@ queryFn에 연결된 함수는 다음 페이지 데이터를 db에서 가져오�
 ### 웹 성능 테스트 및 개선
 Lighthouse를 사용하여 성능을 측정하고, FCP, LCP, CLS, TBT를 기준으로 최적화 작업을 진행했습니다. <br/>
 코드 스플리팅 및 지연 로딩(Lazy Loading)을 적용하여 초기 로딩 시간을 최적화하고, ssr:false 옵션을 활용해 사용자 인터랙션 전에 필요한 리소스만 로드되도록 했습니다.<br/>
-또한 페이지 전환 시 초기에 사용자에게 보여질 UI를 빈 태그가 아닌 의미있는 데이터(Meaningful First Content) 미리 지정하여 hydration 과정에서 생길 mismatch를 줄였습니다.<br/>
+또한 페이지 전환 시 초기에 사용자에게 보여질 UI를 빈 태그가 아닌 의미있는 데이터(First Meaningful Paint)를 미리 지정하여 hydration 과정에서 생길 mismatch를 줄였습니다.<br/>
 위 최적화 과정들을 거쳐 페이지 전환 딜레이 이슈를 해결하였고 성능 지표 점수를 향상시켰습니다.<br/>
 - Lighthouse Performance : 70점 → 85점 → 96점
 - TBT : 1380ms → 450ms → 0
